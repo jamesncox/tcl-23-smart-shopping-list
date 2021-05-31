@@ -6,7 +6,7 @@
 
 - Change "blue-ncs" to a prettier blue
 
-- Reduce the font-size in the <ul> on `List.js` on mobile view with md:text-whatever for larger screens
+- Reduce the font-size in the `<ul>` on `List.js` on mobile view with md:text-whatever for larger screens
 
 - Refactor the AddItem view into a User view with option to copy-to-clipboard your token or sign out
 
