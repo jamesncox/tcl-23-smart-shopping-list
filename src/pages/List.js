@@ -309,7 +309,7 @@ export default function List({ token }) {
               <p className="my-5">You don’t have any listed items</p>
               <Button
                 onClick={() => history.push('/add-item')}
-                text="+ Click to add your first item"
+                text="Add your first item"
               />
             </section>
           ) : (

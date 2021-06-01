@@ -183,7 +183,7 @@ export default function AddItem({ token }) {
             </label>
           </div>
         </div>
-        <Button type="submit" text="+ Add a new item" />
+        <Button type="submit" text="Add to your list" />
       </form>
     </>
   );
