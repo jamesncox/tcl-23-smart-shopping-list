@@ -20,4 +20,6 @@
 
 [] Add a higher-quality logo. It's just too grainy on desktop
 
-[] Create Open Graph image and meta data in public/index.js
+## Completed To Dos
+
+[x] Create Open Graph image and meta data in public/index.js
