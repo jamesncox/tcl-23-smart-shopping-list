@@ -349,7 +349,9 @@ export default function List({ token }) {
               </div>
               <ul className="flex flex-col w-full">
                 {filterByLessThanSevenDays(listItems).length !== 0 && (
-                  <span className="text-2xl font-light mt-5">...soon</span>
+                  <span className="text-xl md:text-2xl font-light mt-5">
+                    ...in a week
+                  </span>
                 )}
                 {filterByLessThanSevenDays(listItems).map((doc) =>
                   renderUnorderedList(doc, 'caribbean-green'),
@@ -357,22 +359,26 @@ export default function List({ token }) {
 
                 {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems)
                   .length !== 0 && (
-                  <span className="text-2xl font-light mt-5">...soonish</span>
+                  <span className="text-xl md:text-2xl font-light mt-5">
+                    ...in a month
+                  </span>
                 )}
                 {filterByMoreThanSevenDaysAndLessThanThirtyDays(
                   listItems,
                 ).map((doc) => renderUnorderedList(doc, 'orange-yellow'))}
 
                 {filterByMoreThanThirtyDays(listItems).length !== 0 && (
-                  <span className="text-2xl font-light mt-5">...not soon</span>
+                  <span className="text-xl md:text-2xl font-light mt-5">
+                    ...after thirty days
+                  </span>
                 )}
                 {filterByMoreThanThirtyDays(listItems).map((doc) =>
                   renderUnorderedList(doc, 'paradise-pink'),
                 )}
 
                 {filterByInactiveItems(listItems).length !== 0 && (
-                  <span className="text-2xl font-light mt-5">
-                    ...to rethink
+                  <span className="text-xl md:text-2xl font-light mt-5">
+                    ...inactive
                   </span>
                 )}
                 {filterByInactiveItems(listItems).map((doc) =>

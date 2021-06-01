@@ -98,8 +98,8 @@ export default function AddItem({ token }) {
             onChange={handleNameChange}
           />
         </label>
-        <h2 className="mt-10 mb-5 self-start text-xl font-light">
-          When will you purchase it?
+        <h2 className="mt-10 mb-5 self-start text-2xl font-light">
+          When will you buy it?
         </h2>
 
         <div className="flex items-center w-full mb-5">
@@ -125,7 +125,7 @@ export default function AddItem({ token }) {
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soon" className="text-midnight-green text-xl">
-              Soon
+              Less than a week
             </label>
           </div>
         </div>
@@ -152,7 +152,7 @@ export default function AddItem({ token }) {
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soonish" className="text-midnight-green text-xl">
-              Soonish
+              Less than a month
             </label>
           </div>
         </div>
@@ -179,7 +179,7 @@ export default function AddItem({ token }) {
               onChange={handleFrequencyChange}
             />
             <label htmlFor="not soon" className="text-midnight-green text-xl">
-              Not soon
+              After thirty days
             </label>
           </div>
         </div>
