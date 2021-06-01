@@ -4,9 +4,9 @@ export default function NavBar(props) {
   return (
     <nav className="grid grid-cols-2 bg-blue-ncs p-5 text-lg md:text-xl w-full divide-x-2 divide-gray-200 fixed bottom-0 z-10 md:px-36 lg:px-48 xl:px-72 lg:w-2/3">
       <RouterLink
-        className="hover:text-orange-yellow"
+        className="hover:text-midnight-green"
         exact
-        activeClassName="text-orange-yellow"
+        activeClassName="text-midnight-green font-bold"
         to="/list"
       >
         <span
@@ -32,9 +32,9 @@ export default function NavBar(props) {
         </span>
       </RouterLink>
       <RouterLink
-        className="hover:text-orange-yellow"
+        className="hover:text-midnight-green"
         exact
-        activeClassName="text-orange-yellow"
+        activeClassName="text-midnight-green font-bold"
         to="/add-item"
       >
         <span
