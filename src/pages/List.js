@@ -241,7 +241,7 @@ export default function List({ token }) {
             onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
           />
 
-          <label className="text-xl" htmlFor={doc.id}>
+          <label className="md:text-xl" htmlFor={doc.id}>
             {doc.data().item_name}
           </label>
           <button
