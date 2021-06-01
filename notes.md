@@ -4,8 +4,6 @@
 
 [ ] Create a new Firestore database and wire up the connection
 
-[ ] Change "blue-ncs" to a prettier blue
-
 [ ] Reduce the font-size in the `<ul>` on `List.js` on mobile view with md:text-whatever for larger screens
 
 [ ] Refactor the AddItem view into a User view with option to copy-to-clipboard your token or sign out
@@ -23,3 +21,9 @@
 ## Completed To Dos
 
 [x] Create Open Graph image and meta data in public/index.js
+
+[x] Change "blue-ncs" to a prettier blue
+
+[x] Change "midnight-green" to have more blue in it
+
+[x] Remove the "+" signs from the buttons
