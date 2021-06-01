@@ -7,8 +7,8 @@ module.exports = {
         'paradise-pink': '#EF476F',
         'orange-yellow': '#FFD166',
         'caribbean-green': '#06D6A0',
-        'blue-ncs': '#118AB2',
-        'midnight-green': '#073B4C',
+        'blue-ncs': '#2081C3',
+        'midnight-green': '#08415C',
         'teal-blue': '#CCFBF1',
       },
       fontFamily: {
