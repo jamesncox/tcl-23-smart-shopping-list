@@ -32,7 +32,7 @@ export default function List({ token }) {
   const markItemPurchased = (e, id, itemData) => {
     const currentDateTime = DateTime.now();
 
-    if (e.target.checked === true) {
+    if (itemData.checked === false) {
       // if an item has not yet been purchased, last_estimate has no value, so we initialize with the user's selected purchase_frequency
       if (itemData.times_purchased === 0) {
         db.collection(token)
@@ -41,6 +41,7 @@ export default function List({ token }) {
             last_purchased: currentDateTime.toString(),
             times_purchased: itemData.times_purchased + 1,
             last_estimate: itemData.purchase_frequency,
+            checked: true,
           });
       } else {
         // if an item has at least 1 times_purchased, calculate the latestInterval with Interval from Luxon
@@ -62,26 +63,31 @@ export default function List({ token }) {
             last_purchased: currentDateTime.toString(),
             times_purchased: itemData.times_purchased + 1,
             last_estimate: latestEstimate,
+            checked: true,
           });
       }
+    } else {
+      db.collection(token).doc(id).update({
+        checked: false,
+      });
     }
   };
 
-  function compareTimeStamps(lastPurchased) {
-    // first check to see if lastPurchased === null in database
-    if (lastPurchased === null) {
-      return false;
-    }
+  // function compareTimeStamps(lastPurchased) {
+  //   // first check to see if lastPurchased === null in database
+  //   if (lastPurchased === null) {
+  //     return false;
+  //   }
 
-    // determine the amount days between now and last_purchase
-    const currentDateTime = DateTime.now();
-    const latestInterval = calculateLatestInterval(
-      lastPurchased,
-      currentDateTime,
-    );
+  //   // determine the amount days between now and last_purchase
+  //   const currentDateTime = DateTime.now();
+  //   const latestInterval = calculateLatestInterval(
+  //     lastPurchased,
+  //     currentDateTime,
+  //   );
 
-    return latestInterval === 0;
-  }
+  //   return latestInterval === 0;
+  // }
 
   const checkForInactiveItem = (itemData) => {
     // pass in the item and create a variable for item.data() here
@@ -163,7 +169,7 @@ export default function List({ token }) {
       if (item.data().times_purchased === 0) {
         return item.data().purchase_frequency === 7;
       } else {
-        return item.data().last_estimate <= 7 && !checkForInactiveItem(item);
+        return item.data().last_estimate <= 7 && !item.data().checked;
       }
     });
   };
@@ -180,7 +186,8 @@ export default function List({ token }) {
         return (
           item.data().last_estimate > 7 &&
           item.data().last_estimate <= 30 &&
-          !checkForInactiveItem(item)
+          !checkForInactiveItem(item) &&
+          !item.data().checked
         );
       }
     });
@@ -195,9 +202,23 @@ export default function List({ token }) {
       if (item.data().times_purchased === 0) {
         return item.data().purchase_frequency === 30;
       } else {
-        return item.data().last_estimate > 30 && !checkForInactiveItem(item);
+        return (
+          item.data().last_estimate > 30 &&
+          !checkForInactiveItem(item) &&
+          // !compareTimeStamps(item) &&
+          !item.data().checked
+        );
       }
     });
+  };
+
+  const filterByRecentlyPurchased = (listItems) => {
+    // filter the items by user input or render all items if no input
+    const alphabetizedUserInputOrAllItems = filterByUserInput(listItems);
+
+    return alphabetizedUserInputOrAllItems.filter(
+      (item) => item.data().checked,
+    );
   };
 
   const filterByInactiveItems = (listItems) => {
@@ -232,8 +253,8 @@ export default function List({ token }) {
             type="checkbox"
             className="mx-2 h-4 w-4 rounded"
             id={doc.id}
-            defaultChecked={compareTimeStamps(doc.data().last_purchased)}
-            disabled={compareTimeStamps(doc.data().last_purchased)}
+            defaultChecked={doc.data().checked}
+            // disabled={compareTimeStamps(doc.data().last_purchased)}
             onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
           />
 
@@ -246,7 +267,6 @@ export default function List({ token }) {
               {doc.data().item_name}
             </p>
           </label>
-          <p className="ml-auto">{doc.data().times_purchased}</p>
           <button
             className="ml-auto"
             key={doc.id}
@@ -364,6 +384,15 @@ export default function List({ token }) {
                   )}
                   {filterByMoreThanThirtyDays(listItems).map((doc) =>
                     renderUnorderedList(doc, 'paradise-pink'),
+                  )}
+
+                  {filterByRecentlyPurchased(listItems).length !== 0 && (
+                    <span className="text-xl md:text-2xl font-light mt-5">
+                      ...recently purchased
+                    </span>
+                  )}
+                  {filterByRecentlyPurchased(listItems).map((doc) =>
+                    renderUnorderedList(doc, 'blue-400'),
                   )}
 
                   {filterByInactiveItems(listItems).length !== 0 && (

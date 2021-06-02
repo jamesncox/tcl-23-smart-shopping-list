@@ -48,6 +48,7 @@ export default function AddItem({ token }) {
       last_purchased: null,
       last_estimate: null,
       times_purchased: 0,
+      checked: false,
     };
 
     const itemExists = doesItemExistInDatabase(itemName);
