@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import Button from '../components/Button';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
+import honeyDoCurve from './../img/honey-do-curved-600px.png';
 
 export default function Info({ token, setToken }) {
   const history = useHistory();
@@ -119,7 +120,28 @@ export default function Info({ token, setToken }) {
         </div>
       </div>
 
+      <section className="self-start my-5">
+        <h2 className="text-2xl self-start font-light mb-5">About Honey Do</h2>
+        <p>
+          A “smart” shopping list app that learns your buying habits and helps
+          you remember what you’re likely to need to buy on your next trip to
+          the store.
+        </p>
+        <p className="mt-5">
+          As you purchase items, Honey Do will re-prioritize items by frequency
+          based both on what category you select and how often you buy each
+          item.
+        </p>
+        <p className="mt-5">Thank you for using Honey Do!</p>
+        <img
+          src={honeyDoCurve}
+          alt="colorful circular logo with half of a honeydew melon as a shopping basket with grocery items coming out of it"
+          className="md:max-w-md w-56 h-56 md:w-96 md:h-96 mt-5 md:mt-2 m-auto"
+        />
+      </section>
+
       <Button text="Sign out" onClick={handleSignOut} />
+      <div className="mb-36" />
     </>
   );
 }
