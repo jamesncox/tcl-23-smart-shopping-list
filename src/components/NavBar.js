@@ -2,7 +2,7 @@ import { NavLink as RouterLink } from 'react-router-dom';
 
 export default function NavBar(props) {
   return (
-    <nav className="grid grid-cols-2 bg-blue-ncs p-5 text-lg md:text-xl w-full divide-x-2 divide-gray-200 fixed bottom-0 z-10 md:px-36 lg:px-48 xl:px-72 lg:w-2/3">
+    <nav className="grid grid-cols-3 bg-blue-ncs p-5 text-lg md:text-xl w-full divide-x-2 divide-gray-200 fixed bottom-0 z-10 md:px-36 lg:px-48 xl:px-72 lg:w-2/3">
       <RouterLink
         className="hover:text-midnight-green"
         exact
@@ -57,6 +57,34 @@ export default function NavBar(props) {
             />
           </svg>
           Add Item
+        </span>
+      </RouterLink>
+      <RouterLink
+        className="hover:text-midnight-green"
+        exact
+        activeClassName="text-midnight-green font-bold"
+        to="/info"
+      >
+        <span
+          role="img"
+          aria-label="Add Item"
+          className="flex justify-center items-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 md:h-6 md:w-6 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          Info
         </span>
       </RouterLink>
     </nav>

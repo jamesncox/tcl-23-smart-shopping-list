@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import List from './pages/List';
 import AddItem from './pages/AddItem';
+import Info from './pages/Info';
 
 const App = () => {
   const [token, setToken] = useState('');
@@ -29,6 +30,9 @@ const App = () => {
               </Route>
               <Route exact path="/add-item">
                 <AddItem token={token} />
+              </Route>
+              <Route exact path="/info">
+                <Info token={token} />
               </Route>
             </Switch>
             <NavBar />
