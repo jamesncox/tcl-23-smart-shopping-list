@@ -18,7 +18,7 @@ export default function Info({ token, setToken }) {
     setCopySuccess(true);
     setTimeout(() => {
       setCopySuccess(false);
-    }, 3000);
+    }, 2000);
   };
 
   const handleSignOut = () => {
@@ -96,7 +96,9 @@ export default function Info({ token, setToken }) {
               </>
             ) : (
               <>
-                <p className="mr-1 text-sm lg:text-lg">Copied!</p>
+                <p className="mr-1 text-caribbean-green text-sm lg:text-lg">
+                  Copied!
+                </p>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 md:h-6 md:w-6 text-caribbean-green focus:outline-none"
