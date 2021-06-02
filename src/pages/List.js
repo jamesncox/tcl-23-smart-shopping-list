@@ -281,7 +281,7 @@ export default function List({ token }) {
   } else {
     return (
       <>
-        <h1 className="mt-5 mb-5 text-3xl self-start font-light">
+        <h1 className="mt-5 text-3xl self-start font-light">
           Things I'll need
         </h1>
 
