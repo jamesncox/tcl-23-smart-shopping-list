@@ -38,8 +38,8 @@ export default function Info({ token, setToken }) {
     }).then((result) => {
       if (result.isDismissed) {
         localStorage.clear();
-        history.push('/');
         setToken('');
+        history.push('/');
       }
     });
   };
