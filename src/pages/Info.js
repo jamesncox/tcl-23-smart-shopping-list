@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Button from '../components/Button';
+import Swal from 'sweetalert2';
 
 export default function Info({ token }) {
   const tokenRef = useRef(null);
@@ -18,6 +19,23 @@ export default function Info({ token }) {
     setTimeout(() => {
       setCopySuccess(false);
     }, 3000);
+  };
+
+  const handleSignOut = () => {
+    // localStorage.clear();
+    Swal.fire({
+      icon: 'warning',
+      iconColor: '#DC2626',
+      title: 'Sign out?',
+      text: 'Make sure you save your token!',
+      showCancelButton: true,
+      confirmButtonColor: '#073B4C',
+      cancelButtonText: 'Sign out',
+      confirmButtonText: 'Remain Signed In',
+      cancelButtonColor: '#DC2626',
+    }).then(() => {
+      localStorage.clear();
+    });
   };
 
   return (
@@ -96,7 +114,7 @@ export default function Info({ token }) {
         </div>
       </div>
 
-      <Button text="Sign out" />
+      <Button text="Sign out" onClick={handleSignOut} />
     </>
   );
 }
