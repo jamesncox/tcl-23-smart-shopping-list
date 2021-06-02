@@ -22,7 +22,6 @@ export default function Info({ token, setToken }) {
   };
 
   const handleSignOut = () => {
-    // localStorage.clear();
     Swal.fire({
       icon: 'warning',
       iconColor: '#DC2626',
