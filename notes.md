@@ -4,8 +4,6 @@
 
 [ ] Create a new Firestore database and wire up the connection
 
-[ ] Reduce the font-size in the `<ul>` on `List.js` on mobile view with md:text-whatever for larger screens
-
 [ ] Refactor the AddItem view into a User view with option to copy-to-clipboard your token or sign out
 
 [ ] Add the `Add item` form as a Sweet Alert 2 modal so that the user can see the items being added to their list
@@ -27,3 +25,5 @@
 [x] Change "midnight-green" to have more blue in it
 
 [x] Remove the "+" signs from the buttons
+
+[x] Reduce the font-size in the `<ul>` on `List.js` on mobile view with md:text-whatever for larger screens
