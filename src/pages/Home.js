@@ -65,7 +65,7 @@ export default function Home({ setToken, currentToken }) {
     return <Redirect to="/list" />;
   } else {
     return (
-      <main>
+      <div>
         <h1 className="mt-5 text-3xl md:text-4xl text-center self-start font-light">
           Welcome to Honey Do
         </h1>
@@ -118,7 +118,7 @@ export default function Home({ setToken, currentToken }) {
             />
           </div>
         </form>
-      </main>
+      </div>
     );
   }
 }
