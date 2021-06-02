@@ -1,3 +1,5 @@
+import Button from '../components/Button';
+
 export default function Info({ token }) {
   return (
     <>
@@ -23,6 +25,8 @@ export default function Info({ token }) {
           <p className="text-sm lg:text-lg ml-10">{token}</p>
         </div>
       </div>
+
+      <Button text="Sign out" />
     </>
   );
 }
