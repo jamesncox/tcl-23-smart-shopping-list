@@ -1,8 +1,10 @@
 import React, { useRef, useState } from 'react';
 import Button from '../components/Button';
 import Swal from 'sweetalert2';
+import { useHistory } from 'react-router-dom';
 
-export default function Info({ token }) {
+export default function Info({ token, setToken }) {
+  const history = useHistory();
   const tokenRef = useRef(null);
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -35,6 +37,8 @@ export default function Info({ token }) {
       cancelButtonColor: '#DC2626',
     }).then(() => {
       localStorage.clear();
+      history.push('/');
+      setToken('');
     });
   };
 

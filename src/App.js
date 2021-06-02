@@ -32,7 +32,7 @@ const App = () => {
                 <AddItem token={token} />
               </Route>
               <Route exact path="/info">
-                <Info token={token} />
+                <Info token={token} setToken={setToken} />
               </Route>
             </Switch>
             <NavBar />
