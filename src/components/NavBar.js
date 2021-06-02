@@ -72,7 +72,7 @@ export default function NavBar(props) {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 md:h-7 md:w-7 mr-2"
+            className="h-5 w-5 md:h-6 md:w-6 mr-2"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -81,7 +81,7 @@ export default function NavBar(props) {
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth={2}
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
             />
           </svg>
           Info
