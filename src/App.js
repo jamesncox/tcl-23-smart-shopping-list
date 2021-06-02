@@ -22,7 +22,7 @@ const App = () => {
           <>
             <Switch>
               <Route exact path="/">
-                <List token={token} />
+                <Home setToken={setToken} currentToken={token} />
               </Route>
               <Route exact path="/list">
                 <List token={token} />
@@ -34,7 +34,7 @@ const App = () => {
             <NavBar />
           </>
         ) : (
-          <Home setToken={setToken} />
+          <Home setToken={setToken} currentToken={token} />
         )}
       </main>
     </Router>
