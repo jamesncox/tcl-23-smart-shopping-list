@@ -61,8 +61,6 @@ export default function Home({ setToken, currentToken }) {
       });
   }
 
-  console.log(currentToken);
-
   if (currentToken !== '') {
     return <Redirect to="/list" />;
   } else {
