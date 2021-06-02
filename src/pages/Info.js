@@ -1,6 +1,20 @@
+import React, { useRef, useState } from 'react';
 import Button from '../components/Button';
 
 export default function Info({ token }) {
+  const tokenRef = useRef(null);
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  const copyToClipBoard = (e) => {
+    tokenRef.current.select();
+    document.execCommand('copy');
+    e.target.focus();
+    setCopySuccess(true);
+    setTimeout(() => {
+      setCopySuccess(false);
+    }, 3000);
+  };
+
   return (
     <>
       <h1 className="mt-5 mb-5 text-3xl self-start font-light">Information</h1>
@@ -22,7 +36,48 @@ export default function Info({ token }) {
           <div className="flex items-center">
             <p className="font-bold">Your token</p>
           </div>
-          <p className="text-sm lg:text-lg ml-10">{token}</p>
+          <p className="text-sm lg:text-lg ml-10" ref={tokenRef}>
+            {token}
+          </p>
+          <button
+            className="flex ml-auto text-midnight-green items-center"
+            type="button"
+            aria-label={!copySuccess ? 'To Copy' : 'Copied Success'}
+            onClick={copyToClipBoard}
+          >
+            <p className="mr-2">Copy</p>
+            {!copySuccess ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 hover:text-caribbean-green focus:outline-none"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-caribbean-green focus:outline-none"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                />
+              </svg>
+            )}
+          </button>
         </div>
       </div>
 
