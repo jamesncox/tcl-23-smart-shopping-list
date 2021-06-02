@@ -129,7 +129,7 @@ export default function Info({ token, setToken }) {
         </p>
         <p className="mt-5">
           As you purchase items, Honey Do will re-prioritize items by frequency
-          based both on what category you select and how often you buy each
+          based both on which category you select and how often you buy each
           item.
         </p>
         <p className="mt-5">Thank you for using Honey Do!</p>
