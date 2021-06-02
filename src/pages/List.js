@@ -8,6 +8,7 @@ import { DateTime, Interval } from 'luxon';
 import Button from '../components/Button';
 import IconButton from '../components/IconButton';
 import writingToken from './../img/writingToken.png';
+import { Redirect } from 'react-router';
 
 export default function List({ token }) {
   const history = useHistory();
@@ -275,107 +276,111 @@ export default function List({ token }) {
     );
   };
 
-  return (
-    <>
-      <h1 className="mt-5 mb-5 text-3xl self-start font-light">
-        Things I'll need
-      </h1>
+  if (!token) {
+    return <Redirect to="/" />;
+  } else {
+    return (
+      <>
+        <h1 className="mt-5 mb-5 text-3xl self-start font-light">
+          Things I'll need
+        </h1>
 
-      {error && <strong>Error: {JSON.stringify(error)}</strong>}
-      {loading && <span>Grocery List: Loading...</span>}
-      {listItems && (
-        <>
-          {listItems.docs.length === 0 ? (
-            <section className="flex flex-col items-center w-full">
-              <img
-                src={writingToken}
-                alt="hand holding pen to write on paper"
-                className="my-5 md:max-w-md md:m-auto p-4"
-              />
-              <p className="my-5">You don’t have any listed items</p>
-              <Button
-                onClick={() => history.push('/add-item')}
-                text="Add your first item"
-              />
-            </section>
-          ) : (
-            <div className="w-full">
-              <label htmlFor="thesearch" className="opacity-0">
-                Search Grocery List Items{' '}
-              </label>
-              <div className="flex mb-5 mt-5">
-                <input
-                  className="w-full pl-5 py-2 rounded bg-midnight-green border border-gray-200"
-                  type="text"
-                  placeholder="Find item"
-                  value={query}
-                  id="thesearch"
-                  onChange={(e) => setQuery(e.target.value)}
+        {error && <strong>Error: {JSON.stringify(error)}</strong>}
+        {loading && <span>Grocery List: Loading...</span>}
+        {listItems && (
+          <>
+            {listItems.docs.length === 0 ? (
+              <section className="flex flex-col items-center w-full">
+                <img
+                  src={writingToken}
+                  alt="hand holding pen to write on paper"
+                  className="my-5 md:max-w-md md:m-auto p-4"
                 />
-                <IconButton
-                  onClick={handleReset}
-                  icon={
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  }
-                  label="clear input"
+                <p className="my-5">You don’t have any listed items</p>
+                <Button
+                  onClick={() => history.push('/add-item')}
+                  text="Add your first item"
                 />
+              </section>
+            ) : (
+              <div className="w-full">
+                <label htmlFor="thesearch" className="opacity-0">
+                  Search Grocery List Items{' '}
+                </label>
+                <div className="flex mb-5 mt-5">
+                  <input
+                    className="w-full pl-5 py-2 rounded bg-midnight-green border border-gray-200"
+                    type="text"
+                    placeholder="Find item"
+                    value={query}
+                    id="thesearch"
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                  <IconButton
+                    onClick={handleReset}
+                    icon={
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    }
+                    label="clear input"
+                  />
+                </div>
+                <ul className="flex flex-col w-full">
+                  {filterByLessThanSevenDays(listItems).length !== 0 && (
+                    <span className="text-xl md:text-2xl font-light mt-5">
+                      ...in a week
+                    </span>
+                  )}
+                  {filterByLessThanSevenDays(listItems).map((doc) =>
+                    renderUnorderedList(doc, 'caribbean-green'),
+                  )}
+
+                  {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems)
+                    .length !== 0 && (
+                    <span className="text-xl md:text-2xl font-light mt-5">
+                      ...in a month
+                    </span>
+                  )}
+                  {filterByMoreThanSevenDaysAndLessThanThirtyDays(
+                    listItems,
+                  ).map((doc) => renderUnorderedList(doc, 'orange-yellow'))}
+
+                  {filterByMoreThanThirtyDays(listItems).length !== 0 && (
+                    <span className="text-xl md:text-2xl font-light mt-5">
+                      ...after thirty days
+                    </span>
+                  )}
+                  {filterByMoreThanThirtyDays(listItems).map((doc) =>
+                    renderUnorderedList(doc, 'paradise-pink'),
+                  )}
+
+                  {filterByInactiveItems(listItems).length !== 0 && (
+                    <span className="text-xl md:text-2xl font-light mt-5">
+                      ...inactive
+                    </span>
+                  )}
+                  {filterByInactiveItems(listItems).map((doc) =>
+                    renderUnorderedList(doc, 'gray-200'),
+                  )}
+                  <div className="mb-36" />
+                </ul>
               </div>
-              <ul className="flex flex-col w-full">
-                {filterByLessThanSevenDays(listItems).length !== 0 && (
-                  <span className="text-xl md:text-2xl font-light mt-5">
-                    ...in a week
-                  </span>
-                )}
-                {filterByLessThanSevenDays(listItems).map((doc) =>
-                  renderUnorderedList(doc, 'caribbean-green'),
-                )}
-
-                {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems)
-                  .length !== 0 && (
-                  <span className="text-xl md:text-2xl font-light mt-5">
-                    ...in a month
-                  </span>
-                )}
-                {filterByMoreThanSevenDaysAndLessThanThirtyDays(
-                  listItems,
-                ).map((doc) => renderUnorderedList(doc, 'orange-yellow'))}
-
-                {filterByMoreThanThirtyDays(listItems).length !== 0 && (
-                  <span className="text-xl md:text-2xl font-light mt-5">
-                    ...after thirty days
-                  </span>
-                )}
-                {filterByMoreThanThirtyDays(listItems).map((doc) =>
-                  renderUnorderedList(doc, 'paradise-pink'),
-                )}
-
-                {filterByInactiveItems(listItems).length !== 0 && (
-                  <span className="text-xl md:text-2xl font-light mt-5">
-                    ...inactive
-                  </span>
-                )}
-                {filterByInactiveItems(listItems).map((doc) =>
-                  renderUnorderedList(doc, 'gray-200'),
-                )}
-                <div className="mb-36" />
-              </ul>
-            </div>
-          )}
-        </>
-      )}
-    </>
-  );
+            )}
+          </>
+        )}
+      </>
+    );
+  }
 }

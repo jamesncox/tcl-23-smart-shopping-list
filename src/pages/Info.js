@@ -29,16 +29,18 @@ export default function Info({ token, setToken }) {
       icon: 'warning',
       iconColor: '#DC2626',
       title: 'Sign out?',
-      text: 'Make sure you save your token!',
+      text: 'Make sure to save your token',
       showCancelButton: true,
-      confirmButtonColor: '#073B4C',
       cancelButtonText: 'Sign out',
-      confirmButtonText: 'Remain Signed In',
       cancelButtonColor: '#DC2626',
-    }).then(() => {
-      localStorage.clear();
-      history.push('/');
-      setToken('');
+      confirmButtonColor: '#073B4C',
+      confirmButtonText: 'Remain Signed In',
+    }).then((result) => {
+      if (result.isDismissed) {
+        localStorage.clear();
+        history.push('/');
+        setToken('');
+      }
     });
   };
 
