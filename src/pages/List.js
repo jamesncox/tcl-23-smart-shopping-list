@@ -241,8 +241,14 @@ export default function List({ token }) {
             onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
           />
 
-          <label className="md:text-xl" htmlFor={doc.id}>
-            {doc.data().item_name}
+          <label htmlFor={doc.id}>
+            <p
+              aria-label={doc.data().item_name}
+              id={doc.id}
+              className="text-md md:text-lg"
+            >
+              {doc.data().item_name}
+            </p>
           </label>
           <button
             className="ml-auto"
