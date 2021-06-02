@@ -87,15 +87,11 @@ export default function List({ token }) {
     // pass in the item and create a variable for item.data() here
     const item = itemData.data();
 
-    if (item.times_purchased === 1) {
-      return true;
-    }
-
     // calculate if the duration between now and last_purchased is greater than DOUBLE the last_estimate
     const doubleLastEstimate = item.last_estimate * 2;
     const currentDateTime = DateTime.now();
     const latestInterval = calculateLatestInterval(
-      itemData.last_purchased,
+      item.last_purchased,
       currentDateTime,
     );
 
@@ -167,7 +163,7 @@ export default function List({ token }) {
       if (item.data().times_purchased === 0) {
         return item.data().purchase_frequency === 7;
       } else {
-        return item.data().last_estimate < 7 && !checkForInactiveItem(item);
+        return item.data().last_estimate <= 7 && !checkForInactiveItem(item);
       }
     });
   };
@@ -182,7 +178,7 @@ export default function List({ token }) {
         return item.data().purchase_frequency === 14;
       } else {
         return (
-          item.data().last_estimate >= 7 &&
+          item.data().last_estimate > 7 &&
           item.data().last_estimate <= 30 &&
           !checkForInactiveItem(item)
         );
@@ -230,7 +226,6 @@ export default function List({ token }) {
         </svg>
         <li
           key={doc.id}
-          v-for="item in items"
           className="container flex items-center bg-gray-200 text-midnight-green font-medium my-2 p-2 rounded w-full"
         >
           <input
@@ -251,6 +246,7 @@ export default function List({ token }) {
               {doc.data().item_name}
             </p>
           </label>
+          <p className="ml-auto">{doc.data().times_purchased}</p>
           <button
             className="ml-auto"
             key={doc.id}
