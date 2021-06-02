@@ -39,10 +39,10 @@ export default function Info({ token }) {
             </svg>
           </div>
           <div className="flex items-center">
-            <p className="font-bold">Your token</p>
+            <p className="text-sm lg:text-lg font-bold">Your token</p>
           </div>
           <p
-            className="text-sm lg:text-lg ml-5 md:ml-10"
+            className="text-sm lg:text-lg ml-3 md:ml-10"
             ref={tokenRef}
             value={token}
           >
@@ -57,12 +57,10 @@ export default function Info({ token }) {
           >
             {!copySuccess ? (
               <>
-                <p className="mr-2 invisible md:visible text-sm lg:text-lg">
-                  Copy
-                </p>
+                <p className="mr-1 text-sm lg:text-lg">Copy</p>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 focus:outline-none"
+                  className="h-5 w-5 md:h-6 md:w-6 focus:outline-none"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -77,12 +75,10 @@ export default function Info({ token }) {
               </>
             ) : (
               <>
-                <p className="mr-2 invisible md:visible text-sm lg:text-lg">
-                  Copied!
-                </p>
+                <p className="mr-1 text-sm lg:text-lg">Copied!</p>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-caribbean-green focus:outline-none"
+                  className="h-5 w-5 md:h-6 md:w-6 text-caribbean-green focus:outline-none"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
