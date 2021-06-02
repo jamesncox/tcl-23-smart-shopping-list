@@ -6,9 +6,14 @@ export default function Info({ token }) {
   const [copySuccess, setCopySuccess] = useState(false);
 
   const copyToClipBoard = (e) => {
-    tokenRef.current.select();
+    console.log(tokenRef.current);
+
+    let r = document.createRange();
+    r.selectNode(tokenRef.current);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
     document.execCommand('copy');
-    e.target.focus();
+    window.getSelection().removeAllRanges();
     setCopySuccess(true);
     setTimeout(() => {
       setCopySuccess(false);
