@@ -1,7 +1,5 @@
 # TO DO
 
-[ ] Add sign out functionality
-
 [ ] Create a new Firestore database and wire up the connection
 
 [ ] Refactor the AddItem view into a User view with option to copy-to-clipboard your token or sign out
@@ -12,11 +10,15 @@
 
 [ ] And refactor "inactive" items to ONLY show items that are MORE than double their suggested purchase date
 
-[ ] Maybe add a "About Honey Do" modal or something that briefly describes the overall functionality
-
 [ ] Add a higher-quality logo. It's just too grainy on desktop
 
 ## Completed To Dos
+
+[x] Add sign out functionality
+
+[x] Maybe add a "About Honey Do" modal or something that briefly describes the overall functionality
+
+[x] Add copy and paste to clipboard functionality
 
 [x] Create Open Graph image and meta data in public/index.js
 
