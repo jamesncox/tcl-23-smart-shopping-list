@@ -185,6 +185,7 @@ export default function AddItem({ token }) {
         </div>
         <Button type="submit" text="Add to your list" />
       </form>
+      <div className="mb-36" />
     </>
   );
 }
