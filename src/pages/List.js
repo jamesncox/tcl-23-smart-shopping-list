@@ -73,21 +73,28 @@ export default function List({ token }) {
     }
   };
 
-  // function compareTimeStamps(item) {
-  //   // first check to see if item === null in database
-  //   if (item.data().last_purchased === null) {
-  //     return false;
-  //   }
+  function compareTimeStamps(item, id) {
+    // first check to see if item === null in database
+    // if (item.data().last_purchased === null) {
+    //   return false;
+    // }
 
-  //   // determine the amount days between now and last_purchase
-  //   const currentDateTime = DateTime.now();
-  //   const latestInterval = calculateLatestInterval(
-  //     item.data().last_purchased,
-  //     currentDateTime,
-  //   );
+    // determine the amount days between now and last_purchase
+    const currentDateTime = DateTime.now();
+    const latestInterval = calculateLatestInterval(
+      item.data().last_purchased,
+      currentDateTime,
+    );
 
-  //   return latestInterval === 0;
-  // }
+    if (latestInterval > 0) {
+      db.collection(token).doc(id).update({
+        checked: false,
+      });
+      return latestInterval > 0;
+    } else {
+      return latestInterval === 0;
+    }
+  }
 
   const checkForInactiveItem = (itemData) => {
     // pass in the item and create a variable for item.data() here
@@ -109,9 +116,7 @@ export default function List({ token }) {
 
   function deleteItem(doc) {
     Swal.fire({
-      title: `Are you sure you want to delete ${doc
-        .data()
-        .item_name.toUpperCase()} from your list?`,
+      title: `Delete ${doc.data().item_name.toUpperCase()} from your list?`,
       text: 'Purchase history will be completely erased',
       icon: 'warning',
       iconColor: '#F5AB00',
@@ -169,7 +174,11 @@ export default function List({ token }) {
       if (item.data().times_purchased === 0) {
         return item.data().purchase_frequency === 7;
       } else {
-        return item.data().last_estimate <= 7 && !item.data().checked;
+        return (
+          item.data().last_estimate <= 7 &&
+          !checkForInactiveItem(item) &&
+          !item.data().checked
+        );
       }
     });
   };
@@ -205,7 +214,6 @@ export default function List({ token }) {
         return (
           item.data().last_estimate > 30 &&
           !checkForInactiveItem(item) &&
-          // !compareTimeStamps(item) &&
           !item.data().checked
         );
       }
@@ -226,8 +234,8 @@ export default function List({ token }) {
     const alphabetizedUserInputOrAllItems = filterByUserInput(listItems);
 
     // filter items into the gray category of more than double last_estimate
-    return alphabetizedUserInputOrAllItems.filter((item) =>
-      checkForInactiveItem(item),
+    return alphabetizedUserInputOrAllItems.filter(
+      (item) => checkForInactiveItem(item) && !item.data().checked,
     );
   };
 
@@ -253,7 +261,9 @@ export default function List({ token }) {
             type="checkbox"
             className="mx-2 h-4 w-4 rounded"
             id={doc.id}
-            defaultChecked={doc.data().checked}
+            defaultChecked={
+              doc.data().checked && compareTimeStamps(doc, doc.id)
+            }
             // disabled={compareTimeStamps(doc.data().last_purchased)}
             onClick={(e) => markItemPurchased(doc.id, doc.data())}
           />
