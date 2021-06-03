@@ -255,7 +255,7 @@ export default function List({ token }) {
             id={doc.id}
             defaultChecked={doc.data().checked}
             // disabled={compareTimeStamps(doc.data().last_purchased)}
-            onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
+            onClick={(e) => markItemPurchased(doc.id, doc.data())}
           />
 
           <label htmlFor={doc.id}>
