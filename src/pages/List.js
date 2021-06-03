@@ -241,10 +241,10 @@ export default function List({ token }) {
 
   const renderUnorderedList = (doc, color) => {
     return (
-      <div className="flex items-center" key={doc.id}>
+      <div className="flex items-center text-blue-400" key={doc.id}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className={`{h-10 w-10 mr-5 text-${color} fill-current `}
+          className={`{h-10 w-10 mr-5 text-${color} fill-current`}
           viewBox="0 0 20 20"
         >
           <path
