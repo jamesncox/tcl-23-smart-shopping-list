@@ -29,7 +29,7 @@ export default function List({ token }) {
     );
   };
 
-  const markItemPurchased = (e, id, itemData) => {
+  const markItemPurchased = (id, itemData) => {
     const currentDateTime = DateTime.now();
 
     if (itemData.checked === false) {
@@ -112,15 +112,15 @@ export default function List({ token }) {
       title: `Are you sure you want to delete ${doc
         .data()
         .item_name.toUpperCase()} from your list?`,
-      text: "Once it's gone, it's gone!",
+      text: 'Purchase history will be completely erased',
       icon: 'warning',
       iconColor: '#F5AB00',
       showCancelButton: true,
       reverseButtons: true,
-      confirmButtonColor: '#118AB1',
-      cancelButtonColor: '#073B4C',
-      cancelButtonText: 'Do not delete this item',
-      confirmButtonText: `Yes, delete ${doc.data().item_name.toUpperCase()}!`,
+      confirmButtonColor: '#2081C3',
+      cancelButtonColor: '#08415C',
+      cancelButtonText: 'Do not delete',
+      confirmButtonText: `Yes, delete`,
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
@@ -129,7 +129,7 @@ export default function List({ token }) {
           icon: 'success',
           iconColor: '#049F76',
           buttonsStyling: true,
-          confirmButtonColor: '#073B4C',
+          confirmButtonColor: '#2081C3',
         });
         db.collection(token).doc(doc.id).delete();
       }
