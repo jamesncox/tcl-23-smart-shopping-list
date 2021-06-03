@@ -73,16 +73,16 @@ export default function List({ token }) {
     }
   };
 
-  // function compareTimeStamps(lastPurchased) {
-  //   // first check to see if lastPurchased === null in database
-  //   if (lastPurchased === null) {
+  // function compareTimeStamps(item) {
+  //   // first check to see if item === null in database
+  //   if (item.data().last_purchased === null) {
   //     return false;
   //   }
 
   //   // determine the amount days between now and last_purchase
   //   const currentDateTime = DateTime.now();
   //   const latestInterval = calculateLatestInterval(
-  //     lastPurchased,
+  //     item.data().last_purchased,
   //     currentDateTime,
   //   );
 
