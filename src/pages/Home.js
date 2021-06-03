@@ -28,7 +28,7 @@ export default function Home({ setToken, currentToken }) {
   }
 
   function handleInputValue(e) {
-    setInputValue(e.target.value);
+    setInputValue(e.target.value.toLowerCase());
   }
 
   function checkExistingToken(e) {
@@ -93,7 +93,6 @@ export default function Home({ setToken, currentToken }) {
               className="pl-5 py-2 w-full rounded bg-midnight-green border border-gray-200"
               name="token"
               placeholder="three word token"
-              style={{ textTransform: 'lowercase' }}
               value={inputValue}
               onChange={handleInputValue}
             />
