@@ -244,7 +244,7 @@ export default function List({ token }) {
       <div className="flex items-center" key={doc.id}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className={`h-10 w-10 mr-5 fill-current text-${color}`}
+          className={`h-10 w-10 mr-5 fill-current ${color}`}
           viewBox="0 0 20 20"
         >
           <path
@@ -374,7 +374,7 @@ export default function List({ token }) {
                     </span>
                   )}
                   {filterByLessThanSevenDays(listItems).map((doc) =>
-                    renderUnorderedList(doc, 'caribbean-green'),
+                    renderUnorderedList(doc, 'text-caribbean-green'),
                   )}
 
                   {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems)
@@ -385,7 +385,9 @@ export default function List({ token }) {
                   )}
                   {filterByMoreThanSevenDaysAndLessThanThirtyDays(
                     listItems,
-                  ).map((doc) => renderUnorderedList(doc, 'orange-yellow'))}
+                  ).map((doc) =>
+                    renderUnorderedList(doc, 'text-orange-yellow'),
+                  )}
 
                   {filterByMoreThanThirtyDays(listItems).length !== 0 && (
                     <span className="text-xl md:text-2xl font-light mt-5">
@@ -393,7 +395,7 @@ export default function List({ token }) {
                     </span>
                   )}
                   {filterByMoreThanThirtyDays(listItems).map((doc) =>
-                    renderUnorderedList(doc, 'paradise-pink'),
+                    renderUnorderedList(doc, 'text-paradise-pink'),
                   )}
 
                   {filterByRecentlyPurchased(listItems).length !== 0 && (
@@ -402,7 +404,7 @@ export default function List({ token }) {
                     </span>
                   )}
                   {filterByRecentlyPurchased(listItems).map((doc) =>
-                    renderUnorderedList(doc, 'blue-400'),
+                    renderUnorderedList(doc, 'text-blue-400'),
                   )}
 
                   {filterByInactiveItems(listItems).length !== 0 && (
@@ -411,7 +413,7 @@ export default function List({ token }) {
                     </span>
                   )}
                   {filterByInactiveItems(listItems).map((doc) =>
-                    renderUnorderedList(doc, 'gray-200'),
+                    renderUnorderedList(doc, 'text-gray-200'),
                   )}
                   <div className="mb-36" />
                 </ul>
