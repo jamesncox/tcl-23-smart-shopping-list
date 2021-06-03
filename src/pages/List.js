@@ -370,7 +370,7 @@ export default function List({ token }) {
                 <ul className="flex flex-col w-full">
                   {filterByLessThanSevenDays(listItems).length !== 0 && (
                     <span className="text-xl md:text-2xl font-light mt-5">
-                      ...in a week
+                      ...within a week
                     </span>
                   )}
                   {filterByLessThanSevenDays(listItems).map((doc) =>
@@ -380,7 +380,7 @@ export default function List({ token }) {
                   {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems)
                     .length !== 0 && (
                     <span className="text-xl md:text-2xl font-light mt-5">
-                      ...in a month
+                      ...within a month
                     </span>
                   )}
                   {filterByMoreThanSevenDaysAndLessThanThirtyDays(

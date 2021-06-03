@@ -126,7 +126,7 @@ export default function AddItem({ token }) {
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soon" className="text-midnight-green text-xl">
-              Less than a week
+              Within a week
             </label>
           </div>
         </div>
@@ -153,7 +153,7 @@ export default function AddItem({ token }) {
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soonish" className="text-midnight-green text-xl">
-              Less than a month
+              Within a month
             </label>
           </div>
         </div>
