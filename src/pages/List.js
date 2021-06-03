@@ -73,12 +73,7 @@ export default function List({ token }) {
     }
   };
 
-  function compareTimeStamps(item, id) {
-    // first check to see if item === null in database
-    // if (item.data().last_purchased === null) {
-    //   return false;
-    // }
-
+  function compareTimeStampsAndUncheckAfter24Hours(item, id) {
     // determine the amount days between now and last_purchase
     const currentDateTime = DateTime.now();
     const latestInterval = calculateLatestInterval(
@@ -86,11 +81,16 @@ export default function List({ token }) {
       currentDateTime,
     );
 
+    const doubleLastEstimate = item.last_estimate * 2;
+
+    // check if an item marked purchased for more than 24 hours
+    // uncheck the item if it is more than 24 hours purchased
+    // if the item is less than DOUBLE the last_estimate, return false so it stays "inactive"
     if (latestInterval > 0) {
       db.collection(token).doc(id).update({
         checked: false,
       });
-      return latestInterval > 0;
+      return latestInterval > 0 && latestInterval > doubleLastEstimate;
     } else {
       return latestInterval === 0;
     }
@@ -262,9 +262,9 @@ export default function List({ token }) {
             className="mx-2 h-4 w-4 rounded"
             id={doc.id}
             defaultChecked={
-              doc.data().checked && compareTimeStamps(doc, doc.id)
+              doc.data().checked &&
+              compareTimeStampsAndUncheckAfter24Hours(doc, doc.id)
             }
-            // disabled={compareTimeStamps(doc.data().last_purchased)}
             onClick={(e) => markItemPurchased(doc.id, doc.data())}
           />
 
