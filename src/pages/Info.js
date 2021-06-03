@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Button from '../components/Button';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
@@ -8,6 +8,12 @@ export default function Info({ token, setToken }) {
   const history = useHistory();
   const tokenRef = useRef(null);
   const [copySuccess, setCopySuccess] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout();
+    };
+  }, []);
 
   const copyToClipBoard = (e) => {
     let r = document.createRange();
