@@ -402,7 +402,7 @@ export default function List({ token }) {
                     </span>
                   )}
                   {filterByRecentlyPurchased(listItems).map((doc) =>
-                    renderUnorderedList(doc, 'blue-ncs'),
+                    renderUnorderedList(doc, 'blue-400'),
                   )}
 
                   {filterByInactiveItems(listItems).length !== 0 && (
