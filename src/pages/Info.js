@@ -142,7 +142,7 @@ export default function Info({ token, setToken }) {
         <img
           src={honeyDoCurve}
           alt="colorful circular logo with half of a honeydew melon as a shopping basket with grocery items coming out of it"
-          className="md:max-w-md w-56 h-56 md:w-96 md:h-96 mt-5 md:mt-2 m-auto"
+          className="md:max-w-md w-56 h-56 md:w-72 md:h-72 mt-5 md:mt-2 m-auto"
         />
       </section>
 
