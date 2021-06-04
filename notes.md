@@ -8,6 +8,8 @@
 
 [ ] Create a View List option that utilizes drag and drop, that initially displays the items alphabetically, and then the user can order them in the order that they go shopping around the store. And can switch between suggested purchase frequency and "Store Order"
 
+[ ] Style checkboxes and likey switch to YARN for package manager.
+
 ## Completed To Dos
 
 [x] Add a "recently purchased" category when the items are clicked purchased in local state, but only local state
