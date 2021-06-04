@@ -10,6 +10,12 @@ import writingToken from './../img/writingToken.png';
 import { Redirect } from 'react-router';
 import FrequencyList from '../components/FrequencyList';
 import FilterItems from '../components/FilterItems';
+import FrequencyFilters from '../components/FrequencyFilters';
+
+// const viewOptions = [
+//   { type: 'Item Frequency', Component: FrequencyList },
+//   { type: 'Store Order', Component: SortableItem },
+// ];
 
 export default function List({ token }) {
   const history = useHistory();
@@ -17,6 +23,9 @@ export default function List({ token }) {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
   const [query, setQuery] = useState('');
+
+  // const [selectedView, setSelectedView] = useState(true);
+  // const handleSelectedView = () => {};
 
   function handleReset() {
     setQuery('');
@@ -301,53 +310,25 @@ export default function List({ token }) {
             ) : (
               <div className="w-full">
                 <ul className="flex flex-col w-full">
-                  {filterByLessThanSevenDays(listItems).length !== 0 && (
-                    <span className="text-xl md:text-2xl font-light mt-5">
-                      ...within a week
-                    </span>
-                  )}
-                  {filterByLessThanSevenDays(listItems).map((doc) =>
-                    renderUnorderedList(doc, 'text-caribbean-green'),
-                  )}
-
-                  {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems)
-                    .length !== 0 && (
-                    <span className="text-xl md:text-2xl font-light mt-5">
-                      ...within a month
-                    </span>
-                  )}
-                  {filterByMoreThanSevenDaysAndLessThanThirtyDays(
-                    listItems,
-                  ).map((doc) =>
-                    renderUnorderedList(doc, 'text-orange-yellow'),
-                  )}
-
-                  {filterByMoreThanThirtyDays(listItems).length !== 0 && (
-                    <span className="text-xl md:text-2xl font-light mt-5">
-                      ...after thirty days
-                    </span>
-                  )}
-                  {filterByMoreThanThirtyDays(listItems).map((doc) =>
-                    renderUnorderedList(doc, 'text-paradise-pink'),
-                  )}
-
-                  {filterByRecentlyPurchased(listItems).length !== 0 && (
-                    <span className="text-xl md:text-2xl font-light mt-5">
-                      ...recently purchased
-                    </span>
-                  )}
-                  {filterByRecentlyPurchased(listItems).map((doc) =>
-                    renderUnorderedList(doc, 'text-blue-400'),
-                  )}
-
-                  {filterByInactiveItems(listItems).length !== 0 && (
-                    <span className="text-xl md:text-2xl font-light mt-5">
-                      ...inactive
-                    </span>
-                  )}
-                  {filterByInactiveItems(listItems).map((doc) =>
-                    renderUnorderedList(doc, 'text-gray-200'),
-                  )}
+                  <nav className="w-full grid grid-cols-2 divide-x-2 divide-gray-200 bg-black bg-opacity-10 p-2 rounded mt-2">
+                    <button className="text-left ml-2 sm:text-center sm:ml-0 text-lg font-light">
+                      Frequency
+                    </button>
+                    <button className="text-right mr-2 sm:text-center sm:mr-0 text-lg font-light">
+                      Store Order
+                    </button>
+                  </nav>
+                  <FrequencyFilters
+                    filterByLessThanSevenDays={filterByLessThanSevenDays}
+                    listItems={listItems}
+                    renderUnorderedList={renderUnorderedList}
+                    filterByMoreThanSevenDaysAndLessThanThirtyDays={
+                      filterByMoreThanSevenDaysAndLessThanThirtyDays
+                    }
+                    filterByMoreThanThirtyDays={filterByMoreThanThirtyDays}
+                    filterByRecentlyPurchased={filterByRecentlyPurchased}
+                    filterByInactiveItems={filterByInactiveItems}
+                  />
                   <div className="mb-36" />
                 </ul>
               </div>
