@@ -242,21 +242,21 @@ export default function List({ token }) {
   const renderUnorderedList = (doc, color) => {
     return (
       <div className="flex items-center" key={doc.id}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className={`h-10 w-10 mr-5 fill-current ${color}`}
-          viewBox="0 0 20 20"
-        >
-          <path
-            fillRule="evenodd"
-            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-            clipRule="evenodd"
-          />
-        </svg>
         <li
           key={doc.id}
-          className="container flex items-center bg-gray-200 text-midnight-green font-medium my-2 p-2 rounded w-full"
+          className={`container flex items-center bg-gray-800 text-gray-200 font-medium my-2 p-2 rounded w-full`}
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className={`h-10 w-10 mr-1 fill-current ${color}`}
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+              clipRule="evenodd"
+            />
+          </svg>
           <input
             type="checkbox"
             className="mx-2 h-4 w-4 rounded"
