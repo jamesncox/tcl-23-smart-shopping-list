@@ -272,7 +272,7 @@ export default function List({ token }) {
             <p
               aria-label={doc.data().item_name}
               id={doc.id}
-              className="text-md md:text-lg"
+              className="text-md md:text-lg cursor-pointer"
             >
               {doc.data().item_name}
             </p>
