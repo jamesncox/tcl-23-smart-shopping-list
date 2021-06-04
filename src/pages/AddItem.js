@@ -121,8 +121,7 @@ export default function AddItem({ token }) {
               name="frequency"
               id="soon"
               value={7}
-              // defaultChecked
-              className="h-5 w-5 mr-5"
+              className="h-5 w-5 mr-5 bg-black bg-opacity-20 text-caribbean-green"
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soon" className="text-xl">
@@ -149,7 +148,7 @@ export default function AddItem({ token }) {
               name="frequency"
               id="soonish"
               value={14}
-              className="h-5 w-5 mr-5"
+              className="h-5 w-5 mr-5 bg-black bg-opacity-20 text-orange-yellow"
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soonish" className="text-xl">
@@ -176,7 +175,7 @@ export default function AddItem({ token }) {
               name="frequency"
               id="not soon"
               value={30}
-              className="h-5 w-5 mr-5"
+              className="h-5 w-5 mr-5 bg-black bg-opacity-20 text-paradise-pink"
               onChange={handleFrequencyChange}
             />
             <label htmlFor="not soon" className="text-xl">
