@@ -273,7 +273,11 @@ export default function List({ token }) {
           handleReset={handleReset}
         />
 
-        {error && <strong>Error: {JSON.stringify(error)}</strong>}
+        {error && (
+          <strong className="text-2xl mt-10 font-bold text-orange-yellow text-center">
+            Error: {JSON.stringify(error)}
+          </strong>
+        )}
         {loading && (
           <h2 className="text-2xl mt-10 font-bold text-orange-yellow text-center">
             Loading...
