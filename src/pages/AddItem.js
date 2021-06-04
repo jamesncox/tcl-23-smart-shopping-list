@@ -115,14 +115,14 @@ export default function AddItem({ token }) {
               clipRule="evenodd"
             />
           </svg>
-          <div className="flex items-center p-2 rounded w-full">
+          <div className="flex items-center">
             <input
               type="radio"
               name="frequency"
               id="soon"
               value={7}
               // defaultChecked
-              className="h-5 w-5 mx-5"
+              className="h-5 w-5 mr-5"
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soon" className="text-xl">
@@ -143,13 +143,13 @@ export default function AddItem({ token }) {
               clipRule="evenodd"
             />
           </svg>
-          <div className="flex items-center p-2 rounded w-full">
+          <div className="flex items-center">
             <input
               type="radio"
               name="frequency"
               id="soonish"
               value={14}
-              className="h-5 w-5 mx-5"
+              className="h-5 w-5 mr-5"
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soonish" className="text-xl">
@@ -170,13 +170,13 @@ export default function AddItem({ token }) {
               clipRule="evenodd"
             />
           </svg>
-          <div className="flex items-center p-2 rounded w-full">
+          <div className="flex items-center">
             <input
               type="radio"
               name="frequency"
               id="not soon"
               value={30}
-              className="h-5 w-5 mx-5"
+              className="h-5 w-5 mr-5"
               onChange={handleFrequencyChange}
             />
             <label htmlFor="not soon" className="text-xl">
