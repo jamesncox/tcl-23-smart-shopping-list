@@ -7,7 +7,7 @@ module.exports = {
         'paradise-pink': '#EF476F',
         'orange-yellow': '#FFDC5E',
         'caribbean-green': '#06D6A0',
-        'blue-ncs': '#2081C3',
+        'blue-ncs': '#235789',
         'midnight-green': '#003049',
         'teal-blue': '#CCFBF1',
       },

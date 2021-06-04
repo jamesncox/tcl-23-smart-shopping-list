@@ -31,3 +31,9 @@
 [x] Remove the "+" signs from the buttons
 
 [x] Reduce the font-size in the `<ul>` on `List.js` on mobile view with md:text-whatever for larger screens
+
+## NavBar Colors
+
+- #2081C3 (original)
+- #0C4767
+- #235789
