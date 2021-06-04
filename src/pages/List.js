@@ -244,11 +244,11 @@ export default function List({ token }) {
       <div className="flex items-center" key={doc.id}>
         <li
           key={doc.id}
-          className={`container flex items-center bg-gray-800 text-gray-200 font-medium my-2 p-2 rounded w-full`}
+          className={`container flex items-center bg-gray-800 md:font-medium my-1 p-2 rounded w-full`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className={`h-10 w-10 mr-1 fill-current ${color}`}
+            className={`h-8 w-8 md:h-10 md:w-10 mr-1 fill-current ${color}`}
             viewBox="0 0 20 20"
           >
             <path
