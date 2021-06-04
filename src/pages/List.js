@@ -244,7 +244,7 @@ export default function List({ token }) {
       <div className="flex items-center" key={doc.id}>
         <li
           key={doc.id}
-          className={`container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full`}
+          className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

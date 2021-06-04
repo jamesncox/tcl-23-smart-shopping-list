@@ -103,7 +103,7 @@ export default function AddItem({ token }) {
           When will you buy it?
         </h2>
 
-        <div className="flex items-center w-full mb-5">
+        <div className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-10 w-10 mr-5 fill-current text-caribbean-green"
@@ -115,7 +115,7 @@ export default function AddItem({ token }) {
               clipRule="evenodd"
             />
           </svg>
-          <div className="flex items-center p-2 bg-gray-200 rounded w-full">
+          <div className="flex items-center p-2 rounded w-full">
             <input
               type="radio"
               name="frequency"
@@ -125,13 +125,13 @@ export default function AddItem({ token }) {
               className="h-5 w-5 mx-5"
               onChange={handleFrequencyChange}
             />
-            <label htmlFor="soon" className="text-midnight-green text-xl">
+            <label htmlFor="soon" className="text-xl">
               Within a week
             </label>
           </div>
         </div>
 
-        <div className="flex items-center w-full mb-5">
+        <div className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-10 w-10 mr-5 fill-current text-orange-yellow"
@@ -143,7 +143,7 @@ export default function AddItem({ token }) {
               clipRule="evenodd"
             />
           </svg>
-          <div className="flex items-center p-2 bg-gray-200 rounded w-full">
+          <div className="flex items-center p-2 rounded w-full">
             <input
               type="radio"
               name="frequency"
@@ -152,13 +152,13 @@ export default function AddItem({ token }) {
               className="h-5 w-5 mx-5"
               onChange={handleFrequencyChange}
             />
-            <label htmlFor="soonish" className="text-midnight-green text-xl">
+            <label htmlFor="soonish" className="text-xl">
               Within a month
             </label>
           </div>
         </div>
 
-        <div className="flex items-center w-full mb-10">
+        <div className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 mb-9 p-2 rounded w-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-10 w-10 mr-5 fill-current text-paradise-pink"
@@ -170,7 +170,7 @@ export default function AddItem({ token }) {
               clipRule="evenodd"
             />
           </svg>
-          <div className="flex items-center p-2 bg-gray-200 rounded w-full">
+          <div className="flex items-center p-2 rounded w-full">
             <input
               type="radio"
               name="frequency"
@@ -179,7 +179,7 @@ export default function AddItem({ token }) {
               className="h-5 w-5 mx-5"
               onChange={handleFrequencyChange}
             />
-            <label htmlFor="not soon" className="text-midnight-green text-xl">
+            <label htmlFor="not soon" className="text-xl">
               After thirty days
             </label>
           </div>
