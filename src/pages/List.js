@@ -259,7 +259,7 @@ export default function List({ token }) {
           </svg>
           <input
             type="checkbox"
-            className="mx-2 h-4 w-4 rounded"
+            className="mx-2 h-4 w-4 rounded h-5 w-5 bg-midnight-green text-gray-900 cursor-pointer"
             id={doc.id}
             defaultChecked={
               doc.data().checked &&
