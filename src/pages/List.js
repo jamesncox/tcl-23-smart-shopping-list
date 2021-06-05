@@ -11,9 +11,8 @@ import { Redirect } from 'react-router';
 import FrequencyList from '../components/FrequencyList';
 import FilterItems from '../components/FilterItems';
 import FrequencyFilters from '../components/FrequencyFilters';
+import SortableListItem from '../components/SortableListItem';
 import SortableList from '../components/SortableList';
-import SortableFilters from '../components/SortableFilters';
-import { DndContext } from '@dnd-kit/core';
 
 const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 
@@ -35,7 +34,7 @@ export default function List({ token }) {
     setSelectedView(e.target.id);
   };
 
-  // set the editable value
+  // set the editable value and toggle true/false
   const [editable, setEditable] = useState(false);
   const toggleEditable = () => {
     if (editable) {
@@ -44,6 +43,8 @@ export default function List({ token }) {
       setEditable(true);
     }
   };
+
+  const [itemIds, setItemIds] = useState([]);
 
   function viewUtilityClasses(view) {
     switch (view) {
@@ -272,8 +273,14 @@ export default function List({ token }) {
     );
   };
 
-  const filterByAlphabetizedStoreOrder = (listItems) => {
-    return filterByUserInput(listItems);
+  const filterSortableItems = () => {
+    return listItems.docs.filter(
+      (doc) =>
+        doc
+          .data()
+          .item_name.toLowerCase()
+          .includes(query.toLowerCase().trim()) || query === '',
+    );
   };
 
   const renderFrequencyList = (doc, color) => {
@@ -295,7 +302,7 @@ export default function List({ token }) {
   const renderSortableList = (doc, color) => {
     return (
       <div className="flex items-center" key={doc.id}>
-        <SortableList
+        <SortableListItem
           doc={doc}
           color={color}
           compareTimeStampsAndUncheckAfter24Hours={
@@ -383,17 +390,13 @@ export default function List({ token }) {
                       filterByInactiveItems={filterByInactiveItems}
                     />
                   ) : (
-                    <DndContext>
-                      <SortableFilters
-                        listItems={listItems}
-                        renderSortableList={renderSortableList}
-                        filterByAlphabetizedStoreOrder={
-                          filterByAlphabetizedStoreOrder
-                        }
-                        toggleEditable={toggleEditable}
-                        editable={editable}
-                      />
-                    </DndContext>
+                    <SortableList
+                      listItems={listItems}
+                      renderSortableList={renderSortableList}
+                      filterSortableItems={filterSortableItems}
+                      toggleEditable={toggleEditable}
+                      editable={editable}
+                    />
                   )}
                   <div className="mb-36" />
                 </ul>
