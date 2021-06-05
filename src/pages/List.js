@@ -22,11 +22,27 @@ export default function List({ token }) {
   const [listItems, loading, error] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
-  const [query, setQuery] = useState('');
 
+  // set and clear user query for item filter
+  const [query, setQuery] = useState('');
+  function handleReset() {
+    setQuery('');
+  }
+
+  // set and toggle the viewOptions Frequency or Store Order
   const [selectedView, setSelectedView] = useState('Frequency');
   const toggleSelectedView = (e) => {
     setSelectedView(e.target.id);
+  };
+
+  // set the editable value
+  const [editable, setEditable] = useState(false);
+  const toggleEditable = () => {
+    if (editable) {
+      setEditable(false);
+    } else {
+      setEditable(true);
+    }
   };
 
   function viewUtilityClasses(view) {
@@ -36,10 +52,6 @@ export default function List({ token }) {
       case 'Store Order':
         return 'w-28 p-2 rounded-tr rounded-br mr-auto text-lg font-light bg-black bg-opacity-40 hover:bg-gray-700';
     }
-  }
-
-  function handleReset() {
-    setQuery('');
   }
 
   const calculateLatestInterval = (lastPurchased, currentDateTime) => {
@@ -296,6 +308,8 @@ export default function List({ token }) {
     );
   };
 
+  console.log(editable);
+
   if (!token) {
     return <Redirect to="/" />;
   } else {
@@ -377,6 +391,8 @@ export default function List({ token }) {
                         filterByAlphabetizedStoreOrder={
                           filterByAlphabetizedStoreOrder
                         }
+                        toggleEditable={toggleEditable}
+                        editable={editable}
                       />
                     </DndContext>
                   )}

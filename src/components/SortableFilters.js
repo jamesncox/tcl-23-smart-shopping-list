@@ -4,17 +4,9 @@ export default function SortableFilters({
   listItems,
   renderSortableList,
   filterByAlphabetizedStoreOrder,
+  toggleEditable,
+  editable,
 }) {
-  const [editable, setEditable] = useState(false);
-
-  const toggleEditable = () => {
-    if (editable) {
-      setEditable(false);
-    } else {
-      setEditable(true);
-    }
-  };
-
   return (
     <>
       {filterByAlphabetizedStoreOrder(listItems).length !== 0 && (
