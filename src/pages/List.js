@@ -13,6 +13,7 @@ import FilterItems from '../components/FilterItems';
 import FrequencyFilters from '../components/FrequencyFilters';
 import SortableList from '../components/SortableList';
 import SortableFilters from '../components/SortableFilters';
+import { DndContext } from '@dnd-kit/core';
 
 const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 
@@ -369,13 +370,15 @@ export default function List({ token }) {
                       filterByInactiveItems={filterByInactiveItems}
                     />
                   ) : (
-                    <SortableFilters
-                      listItems={listItems}
-                      renderSortableList={renderSortableList}
-                      filterByAlphabetizedStoreOrder={
-                        filterByAlphabetizedStoreOrder
-                      }
-                    />
+                    <DndContext>
+                      <SortableFilters
+                        listItems={listItems}
+                        renderSortableList={renderSortableList}
+                        filterByAlphabetizedStoreOrder={
+                          filterByAlphabetizedStoreOrder
+                        }
+                      />
+                    </DndContext>
                   )}
                   <div className="mb-36" />
                 </ul>

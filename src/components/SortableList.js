@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDroppable } from '@dnd-kit/core';
+// import { useSortable } from '@dnd-kit/sortable';
 // import DragIcon from '../img/drag.svg';
 
 export default function SortableList({
@@ -8,17 +8,23 @@ export default function SortableList({
   markItemPurchased,
   deleteItem,
 }) {
-  const { isOver, setNodeRef } = useDroppable({
-    id: 'droppable',
-  });
-  const style = {
-    color: isOver ? 'green' : undefined,
-  };
+  // const {
+  //   attributes,
+  //   listeners,
+  //   setNodeRef,
+  //   transform,
+  //   transition,
+  // } = useSortable({ id: doc.id });
+
+  // const style = {
+  //   transform: CSS.Transform.toString(transform),
+  //   transition,
+  // };
 
   return (
     <li
-      ref={setNodeRef}
-      style={style}
+      // ref={setNodeRef}
+      // style={style}
       key={doc.id}
       className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full"
     >
