@@ -11,6 +11,7 @@ import { Redirect } from 'react-router';
 import FrequencyList from '../components/FrequencyList';
 import FilterItems from '../components/FilterItems';
 import FrequencyFilters from '../components/FrequencyFilters';
+import SortableItem from '../components/SortableItem';
 
 const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 
@@ -334,17 +335,19 @@ export default function List({ token }) {
                       </button>
                     ))}
                   </nav>
-                  <FrequencyFilters
-                    filterByLessThanSevenDays={filterByLessThanSevenDays}
-                    listItems={listItems}
-                    renderUnorderedList={renderUnorderedList}
-                    filterByMoreThanSevenDaysAndLessThanThirtyDays={
-                      filterByMoreThanSevenDaysAndLessThanThirtyDays
-                    }
-                    filterByMoreThanThirtyDays={filterByMoreThanThirtyDays}
-                    filterByRecentlyPurchased={filterByRecentlyPurchased}
-                    filterByInactiveItems={filterByInactiveItems}
-                  />
+                  {selectedView === 'Frequency' ? (
+                    <FrequencyFilters
+                      filterByLessThanSevenDays={filterByLessThanSevenDays}
+                      listItems={listItems}
+                      renderUnorderedList={renderUnorderedList}
+                      filterByMoreThanSevenDaysAndLessThanThirtyDays={
+                        filterByMoreThanSevenDaysAndLessThanThirtyDays
+                      }
+                      filterByMoreThanThirtyDays={filterByMoreThanThirtyDays}
+                      filterByRecentlyPurchased={filterByRecentlyPurchased}
+                      filterByInactiveItems={filterByInactiveItems}
+                    />
+                  ) : null}
                   <div className="mb-36" />
                 </ul>
               </div>
