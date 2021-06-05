@@ -303,12 +303,11 @@ export default function List({ token }) {
           }
           markItemPurchased={markItemPurchased}
           deleteItem={deleteItem}
+          editable={editable}
         />
       </div>
     );
   };
-
-  console.log(editable);
 
   if (!token) {
     return <Redirect to="/" />;

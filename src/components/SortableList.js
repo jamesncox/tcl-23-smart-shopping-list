@@ -7,6 +7,7 @@ export default function SortableList({
   compareTimeStampsAndUncheckAfter24Hours,
   markItemPurchased,
   deleteItem,
+  editable,
 }) {
   // const {
   //   attributes,
@@ -49,10 +50,10 @@ export default function SortableList({
           {doc.data().item_name}
         </p>
       </label>
-      <button className="ml-auto" key={doc.id} onClick={() => deleteItem(doc)}>
+      {editable ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 mx-2 hover:text-red-500"
+          className="h-6 w-6 mx-2 ml-auto hover:text-caribbean-green"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -61,10 +62,31 @@ export default function SortableList({
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            d="M4 6h16M4 12h16M4 18h16"
           />
         </svg>
-      </button>
+      ) : (
+        <button
+          className="ml-auto"
+          key={doc.id}
+          onClick={() => deleteItem(doc)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 mx-2 hover:text-red-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+        </button>
+      )}
     </li>
   );
 }
