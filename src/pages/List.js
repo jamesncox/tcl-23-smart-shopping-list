@@ -12,10 +12,7 @@ import FrequencyList from '../components/FrequencyList';
 import FilterItems from '../components/FilterItems';
 import FrequencyFilters from '../components/FrequencyFilters';
 
-// const viewOptions = [
-//   { type: 'Item Frequency', Component: FrequencyList },
-//   { type: 'Store Order', Component: SortableItem },
-// ];
+const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 
 export default function List({ token }) {
   const history = useHistory();
@@ -24,8 +21,19 @@ export default function List({ token }) {
   });
   const [query, setQuery] = useState('');
 
-  // const [selectedView, setSelectedView] = useState(true);
-  // const handleSelectedView = () => {};
+  const [selectedView, setSelectedView] = useState('Frequency');
+  const toggleSelectedView = (e) => {
+    setSelectedView(e.target.id);
+  };
+
+  function viewUtilityClasses(view) {
+    switch (view) {
+      case 'Frequency':
+        return 'w-28 p-2 rounded-tl rounded-bl mr-auto text-lg font-light bg-black bg-opacity-40';
+      case 'Store Order':
+        return 'w-28 p-2 rounded-tr rounded-br mr-auto text-lg font-light bg-black bg-opacity-40';
+    }
+  }
 
   function handleReset() {
     setQuery('');
@@ -310,13 +318,21 @@ export default function List({ token }) {
             ) : (
               <div className="w-full">
                 <ul className="flex flex-col w-full">
-                  <nav className="w-full grid grid-cols-2 divide-x-2 divide-gray-200 bg-black bg-opacity-10 p-2 rounded mt-2">
-                    <button className="text-left ml-2 sm:text-center sm:ml-0 text-lg font-light">
-                      Frequency
-                    </button>
-                    <button className="text-right mr-2 sm:text-center sm:mr-0 text-lg font-light">
-                      Store Order
-                    </button>
+                  <nav className="m-auto grid grid-cols-2 rounded mt-2 bg-black bg-opacity-20">
+                    {viewOptions.map(({ type }) => (
+                      <button
+                        key={type}
+                        id={type}
+                        className={
+                          type === selectedView
+                            ? viewUtilityClasses(selectedView)
+                            : 'w-28 p-2 rounded ml-auto text-lg font-light'
+                        }
+                        onClick={toggleSelectedView}
+                      >
+                        {type}
+                      </button>
+                    ))}
                   </nav>
                   <FrequencyFilters
                     filterByLessThanSevenDays={filterByLessThanSevenDays}
