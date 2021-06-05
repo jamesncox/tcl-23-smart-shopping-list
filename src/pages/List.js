@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { db } from '../lib/firebase';
-import { useCollection } from 'react-firebase-hooks/firestore';
+import { useDocument } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import calculateEstimate from '../lib/estimates';
@@ -18,9 +18,18 @@ const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 
 export default function List({ token }) {
   const history = useHistory();
-  const [listItems, loading, error] = useCollection(db.collection(token), {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+  // const [listItems, loading, error] = useCollection(db.collection(token), {
+  //   snapshotListenOptions: { includeMetadataChanges: true },
+  // });
+
+  const [listItems, loading, error] = useDocument(
+    db.doc(`hooks/three word token`),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    },
+  );
+
+  // console.log('listItems data', listItems.data());
 
   // set and clear user query for item filter
   const [query, setQuery] = useState('');

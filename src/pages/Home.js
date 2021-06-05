@@ -13,10 +13,25 @@ export default function Home({ setToken, currentToken }) {
   const history = useHistory();
   const [inputValue, setInputValue] = useState('');
 
-  function handleClick() {
+  function createNewList() {
     const token = getToken();
     addKeyValuePairToLocalStorage('token', token);
     setToken(token);
+
+    db.collection('shopping_lists')
+      .doc(token)
+      .set({
+        token: token,
+        items: [],
+        sort_order: [],
+      })
+      .then(() => {
+        console.log('Document successfully written!');
+      })
+      .catch((error) => {
+        console.error('Error writing document: ', error);
+      });
+
     Swal.fire({
       icon: 'success',
       iconColor: '#048B67',
@@ -27,7 +42,7 @@ export default function Home({ setToken, currentToken }) {
     history.push('/list');
   }
 
-  function handleInputValue(e) {
+  function handleTokenInput(e) {
     setInputValue(e.target.value.toLowerCase());
   }
 
@@ -42,10 +57,18 @@ export default function Home({ setToken, currentToken }) {
         confirmButtonColor: '#073B4C',
       });
     }
-    db.collection(inputValue.trim())
+
+    // const docRef = db.collection('shopping_lists').doc(inputValue);
+
+    db.collection('shopping_lists')
+      .doc(inputValue.trim())
       .get()
-      .then((snap) => {
-        if (snap.empty) {
+      .then((doc) => {
+        if (doc.exists) {
+          addKeyValuePairToLocalStorage('token', inputValue);
+          setToken(inputValue);
+          history.push('/list');
+        } else {
           Swal.fire({
             icon: 'error',
             iconColor: '#EF476F',
@@ -53,10 +76,6 @@ export default function Home({ setToken, currentToken }) {
             text: 'Please try again or start a new list!',
             confirmButtonColor: '#073B4C',
           });
-        } else {
-          addKeyValuePairToLocalStorage('token', inputValue);
-          setToken(inputValue);
-          history.push('/list');
         }
       });
   }
@@ -78,7 +97,7 @@ export default function Home({ setToken, currentToken }) {
           className="md:max-w-md md:m-auto p-4 md:p-8"
         />
         <h2 className="text-2xl font-light mb-5">Get organized now</h2>
-        <Button onClick={handleClick} text="Start a new list" />
+        <Button onClick={createNewList} text="Start a new list" />
 
         <h2 className="text-2xl font-light mt-10">
           ...or join an existing list
@@ -94,7 +113,7 @@ export default function Home({ setToken, currentToken }) {
               name="token"
               placeholder="three word token"
               value={inputValue}
-              onChange={handleInputValue}
+              onChange={handleTokenInput}
             />
             <IconButton
               type="submit"

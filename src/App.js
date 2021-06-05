@@ -25,9 +25,9 @@ const App = () => {
               <Route exact path="/">
                 <Home setToken={setToken} currentToken={token} />
               </Route>
-              <Route exact path="/list">
+              {/* <Route exact path="/list">
                 <List token={token} />
-              </Route>
+              </Route> */}
               <Route exact path="/add-item">
                 <AddItem token={token} />
               </Route>
