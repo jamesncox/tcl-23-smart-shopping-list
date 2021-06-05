@@ -57,8 +57,6 @@ export default function Home({ setToken, currentToken }) {
       });
     }
 
-    // const docRef = db.collection('shopping_lists').doc(inputValue);
-
     db.collection('shopping_lists')
       .doc(inputValue.trim())
       .get()
