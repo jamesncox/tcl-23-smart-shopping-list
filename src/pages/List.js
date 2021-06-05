@@ -211,13 +211,13 @@ export default function List({ token }) {
 
     // filter into the green category of less than 7 days
     return alphabetizedUserInputOrAllItems.filter((item) => {
-      if (item.data().times_purchased === 0) {
-        return item.data().purchase_frequency === 7;
+      if (item.times_purchased === 0) {
+        return item.purchase_frequency === 7;
       } else {
         return (
-          item.data().last_estimate <= 7 &&
+          item.last_estimate <= 7 &&
           !checkForInactiveItem(item) &&
-          !item.data().checked
+          !item.checked
         );
       }
     });
@@ -229,14 +229,14 @@ export default function List({ token }) {
 
     // filter items into the purple category of more than 7 days and less than 30 days
     return alphabetizedUserInputOrAllItems.filter((item) => {
-      if (item.data().times_purchased === 0) {
-        return item.data().purchase_frequency === 14;
+      if (item.times_purchased === 0) {
+        return item.purchase_frequency === 14;
       } else {
         return (
-          item.data().last_estimate > 7 &&
-          item.data().last_estimate <= 30 &&
+          item.last_estimate > 7 &&
+          item.last_estimate <= 30 &&
           !checkForInactiveItem(item) &&
-          !item.data().checked
+          !item.checked
         );
       }
     });
@@ -248,13 +248,13 @@ export default function List({ token }) {
 
     // filter items into the red category of more than 30 days
     return alphabetizedUserInputOrAllItems.filter((item) => {
-      if (item.data().times_purchased === 0) {
-        return item.data().purchase_frequency === 30;
+      if (item.times_purchased === 0) {
+        return item.purchase_frequency === 30;
       } else {
         return (
-          item.data().last_estimate > 30 &&
+          item.last_estimate > 30 &&
           !checkForInactiveItem(item) &&
-          !item.data().checked
+          !item.checked
         );
       }
     });
@@ -264,9 +264,7 @@ export default function List({ token }) {
     // filter the items by user input or render all items if no input
     const alphabetizedUserInputOrAllItems = filterByUserInput(listItems);
 
-    return alphabetizedUserInputOrAllItems.filter(
-      (item) => item.data().checked,
-    );
+    return alphabetizedUserInputOrAllItems.filter((item) => item.checked);
   };
 
   const filterByInactiveItems = (listItems) => {
@@ -275,7 +273,7 @@ export default function List({ token }) {
 
     // filter items into the gray category of more than double last_estimate
     return alphabetizedUserInputOrAllItems.filter(
-      (item) => checkForInactiveItem(item) && !item.data().checked,
+      (item) => checkForInactiveItem(item) && !item.checked,
     );
   };
 

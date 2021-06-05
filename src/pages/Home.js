@@ -21,7 +21,6 @@ export default function Home({ setToken, currentToken }) {
     db.collection('shopping_lists')
       .doc(token)
       .set({
-        token: token,
         items: [],
         sort_order: [],
       })
