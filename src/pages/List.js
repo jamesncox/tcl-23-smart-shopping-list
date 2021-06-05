@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { db } from '../lib/firebase';
+import firebase from 'firebase/app';
 import { useDocument } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -18,18 +19,13 @@ const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 
 export default function List({ token }) {
   const history = useHistory();
-  // const [listItems, loading, error] = useCollection(db.collection(token), {
-  //   snapshotListenOptions: { includeMetadataChanges: true },
-  // });
 
-  const [listItems, loading, error] = useDocument(
-    db.doc(`hooks/three word token`),
+  const [listData, error, loading] = useDocument(
+    firebase.firestore().doc(`shopping_lists/${token}`),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     },
   );
-
-  // console.log('listItems data', listItems.data());
 
   // set and clear user query for item filter
   const [query, setQuery] = useState('');
@@ -74,6 +70,7 @@ export default function List({ token }) {
 
   const markItemPurchased = (id, itemData) => {
     const currentDateTime = DateTime.now();
+    const itemRef = db.collection('shopping_lists').doc(token);
 
     if (itemData.checked === false) {
       // if an item has not yet been purchased, last_estimate has no value, so we initialize with the user's selected purchase_frequency
@@ -157,9 +154,9 @@ export default function List({ token }) {
     return false;
   };
 
-  function deleteItem(doc) {
+  function deleteItem(item) {
     Swal.fire({
-      title: `Delete ${doc.data().item_name.toUpperCase()} from your list?`,
+      title: `Delete ${item.item_name.toUpperCase()} from your list?`,
       text: 'Purchase history will be completely erased',
       icon: 'warning',
       iconColor: '#F5AB00',
@@ -173,23 +170,23 @@ export default function List({ token }) {
       if (result.isConfirmed) {
         Swal.fire({
           title: 'Deleted!',
-          text: `${doc.data().item_name.toUpperCase()} has been deleted.`,
+          text: `${item.item_name.toUpperCase()} has been deleted.`,
           icon: 'success',
           iconColor: '#049F76',
           buttonsStyling: true,
           confirmButtonColor: '#2081C3',
         });
-        db.collection(token).doc(doc.id).delete();
+        db.collection(token).doc(item.item_name).delete();
       }
     });
   }
 
   const alphabetizeListItems = (list) => {
     const sortedList = list.sort((a, b) => {
-      if (a.data().item_name.toLowerCase() < b.data().item_name.toLowerCase()) {
+      if (a.item_name.toLowerCase() < b.item_name.toLowerCase()) {
         return -1;
       }
-      if (a.data().item_name.toLowerCase() > b.data().item_name.toLowerCase()) {
+      if (a.item_name.toLowerCase() > b.item_name.toLowerCase()) {
         return 1;
       }
       return 0;
@@ -283,13 +280,15 @@ export default function List({ token }) {
   };
 
   const filterSortableItems = () => {
-    return listItems.docs.filter(
-      (doc) =>
-        doc
-          .data()
-          .item_name.toLowerCase()
-          .includes(query.toLowerCase().trim()) || query === '',
-    );
+    return listData
+      .data()
+      .items.filter(
+        (doc) =>
+          doc
+            .data()
+            .item_name.toLowerCase()
+            .includes(query.toLowerCase().trim()) || query === '',
+      );
   };
 
   const renderFrequencyList = (doc, color) => {
@@ -308,11 +307,11 @@ export default function List({ token }) {
     );
   };
 
-  const renderSortableList = (doc, color) => {
+  const renderSortableList = (item, color) => {
     return (
-      <div className="flex items-center" key={doc.id}>
+      <div className="flex items-center" key={item.item_name}>
         <SortableListItem
-          doc={doc}
+          item={item}
           color={color}
           compareTimeStampsAndUncheckAfter24Hours={
             compareTimeStampsAndUncheckAfter24Hours
@@ -352,9 +351,9 @@ export default function List({ token }) {
             Loading...
           </h2>
         )}
-        {listItems && (
+        {listData && (
           <>
-            {listItems.docs.length === 0 ? (
+            {listData.data().items.length === 0 ? (
               <section className="flex flex-col items-center w-full">
                 <img
                   src={writingToken}
@@ -389,7 +388,7 @@ export default function List({ token }) {
                   {selectedView === 'Frequency' ? (
                     <FrequencyFilters
                       filterByLessThanSevenDays={filterByLessThanSevenDays}
-                      listItems={listItems}
+                      listData={listData}
                       renderFrequencyList={renderFrequencyList}
                       filterByMoreThanSevenDaysAndLessThanThirtyDays={
                         filterByMoreThanSevenDaysAndLessThanThirtyDays
@@ -400,7 +399,7 @@ export default function List({ token }) {
                     />
                   ) : (
                     <SortableList
-                      listItems={listItems}
+                      listData={listData}
                       renderSortableList={renderSortableList}
                       filterSortableItems={filterSortableItems}
                       toggleEditable={toggleEditable}

@@ -79,7 +79,7 @@ export default function AddItem({ token }) {
         confirmButtonColor: '#073B4C',
       });
     } else {
-      let itemRef = db.collection('shopping_lists').doc(token);
+      const itemRef = db.collection('shopping_lists').doc(token);
 
       itemRef.update({
         items: firebase.firestore.FieldValue.arrayUnion(newItemObject),

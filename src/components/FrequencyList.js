@@ -1,5 +1,5 @@
 export default function FrequencyList({
-  doc,
+  item,
   color,
   compareTimeStampsAndUncheckAfter24Hours,
   markItemPurchased,
@@ -7,7 +7,7 @@ export default function FrequencyList({
 }) {
   return (
     <li
-      key={doc.id}
+      key={item.item_name}
       className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full"
     >
       <svg
@@ -24,24 +24,28 @@ export default function FrequencyList({
       <input
         type="checkbox"
         className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
-        id={doc.id}
+        item_name={item.item_name}
         defaultChecked={
-          doc.data().checked &&
-          compareTimeStampsAndUncheckAfter24Hours(doc, doc.id)
+          item.data().checked &&
+          compareTimeStampsAndUncheckAfter24Hours(item, item.item_name)
         }
-        onClick={(e) => markItemPurchased(doc.id, doc.data())}
+        onClick={(e) => markItemPurchased(item.item_name, item.data())}
       />
 
-      <label htmlFor={doc.id}>
+      <label htmlFor={item.item_name}>
         <p
-          aria-label={doc.data().item_name}
-          id={doc.id}
+          aria-label={item.data().item_name}
+          item_name={item.item_name}
           className="text-md md:text-lg cursor-pointer"
         >
-          {doc.data().item_name}
+          {item.data().item_name}
         </p>
       </label>
-      <button className="ml-auto" key={doc.id} onClick={() => deleteItem(doc)}>
+      <button
+        className="ml-auto"
+        key={item.item_name}
+        onClick={() => deleteItem(item)}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6 mx-2 hover:text-red-500"
@@ -52,7 +56,7 @@ export default function FrequencyList({
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2}
+            strokeWitem_nameth={2}
             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
           />
         </svg>

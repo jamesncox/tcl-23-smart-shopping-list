@@ -16,7 +16,7 @@ import {
 } from '@dnd-kit/sortable';
 
 export default function SortableList({
-  listItems,
+  listData,
   renderSortableList,
   filterSortableItems,
   toggleEditable,
@@ -49,7 +49,7 @@ export default function SortableList({
       // onDragEnd={handleDragEnd}
     >
       <SortableContext strategy={verticalListSortingStrategy}>
-        {listItems.length !== 0 && (
+        {listData.data().items.length !== 0 && (
           <div className="flex items-center full mt-5 mb-1">
             <span className="text-xl md:text-2xl font-light">
               shopping order
@@ -63,7 +63,7 @@ export default function SortableList({
           </div>
         )}
 
-        {filterSortableItems(listItems).map((doc) =>
+        {filterSortableItems(listData).map((doc) =>
           renderSortableList(doc, 'text-blue-400'),
         )}
       </SortableContext>

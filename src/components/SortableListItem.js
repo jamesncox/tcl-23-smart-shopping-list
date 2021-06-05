@@ -3,14 +3,14 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 export default function SortableListItem({
-  doc,
+  item,
   compareTimeStampsAndUncheckAfter24Hours,
   markItemPurchased,
   deleteItem,
   editable,
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: doc.id });
+    useSortable({ id: item.item_name });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -21,32 +21,32 @@ export default function SortableListItem({
     <li
       ref={setNodeRef}
       style={style}
-      key={doc.id}
+      key={item.item_name}
       className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full"
       {...listeners}
     >
       <input
         type="checkbox"
         className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
-        id={doc.id}
+        id={item.item_name}
         defaultChecked={
-          doc.data().checked &&
-          compareTimeStampsAndUncheckAfter24Hours(doc, doc.id)
+          item.data().checked &&
+          compareTimeStampsAndUncheckAfter24Hours(item, item.item_name)
         }
-        onClick={(e) => markItemPurchased(doc.id, doc.data())}
+        onClick={(e) => markItemPurchased(item.item_name, item.data())}
       />
 
-      <label htmlFor={doc.id}>
+      <label htmlFor={item.item_name}>
         <p
-          aria-label={doc.data().item_name}
-          id={doc.id}
+          aria-label={item.data().item_name}
+          id={item.item_name}
           className="text-md md:text-lg cursor-pointer"
         >
-          {doc.data().item_name}
+          {item.data().item_name}
         </p>
       </label>
       {editable ? (
-        <button className="ml-auto" key={doc.id} {...attributes}>
+        <button className="ml-auto" key={item.item_name} {...attributes}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 mx-2 hover:text-caribbean-green"
@@ -65,8 +65,8 @@ export default function SortableListItem({
       ) : (
         <button
           className="ml-auto"
-          key={doc.id}
-          onClick={() => deleteItem(doc)}
+          key={item.item_name}
+          onClick={() => deleteItem(item)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
