@@ -1,17 +1,21 @@
 import { useState } from 'react';
 import { db } from '../lib/firebase';
-import { useCollection } from 'react-firebase-hooks/firestore';
+import { useDocument } from 'react-firebase-hooks/firestore';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
 import Button from '../components/Button';
+import firebase from 'firebase/app';
 
 export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
   const [purchaseFrequency, setPurchaseFrequency] = useState(null);
 
-  const [listItems] = useCollection(db.collection(token), {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+  const [listData] = useDocument(
+    firebase.firestore().doc(`shopping_lists/${token}`),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    },
+  );
 
   const history = useHistory();
 
@@ -30,8 +34,8 @@ export default function AddItem({ token }) {
   const doesItemExistInDatabase = () => {
     const normalizedUserInput = normalizeString(itemName);
 
-    const matchingItemName = listItems.docs.filter((doc) => {
-      const normalizedDatabaseItem = normalizeString(doc.data().item_name);
+    const matchingItemName = listData.data().items.filter((item) => {
+      const normalizedDatabaseItem = normalizeString(item.item_name);
 
       return normalizedDatabaseItem === normalizedUserInput;
     });
@@ -75,7 +79,12 @@ export default function AddItem({ token }) {
         confirmButtonColor: '#073B4C',
       });
     } else {
-      db.collection(token).add(newItemObject);
+      let itemRef = db.collection('shopping_lists').doc(token);
+
+      itemRef.update({
+        items: firebase.firestore.FieldValue.arrayUnion(newItemObject),
+        sort_order: firebase.firestore.FieldValue.arrayUnion(itemName),
+      });
       history.push('/list');
     }
   }
