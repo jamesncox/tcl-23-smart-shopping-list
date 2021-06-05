@@ -11,7 +11,8 @@ import { Redirect } from 'react-router';
 import FrequencyList from '../components/FrequencyList';
 import FilterItems from '../components/FilterItems';
 import FrequencyFilters from '../components/FrequencyFilters';
-import SortableItem from '../components/SortableItem';
+import SortableList from '../components/SortableList';
+import SortableFilters from '../components/SortableFilters';
 
 const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 
@@ -30,9 +31,9 @@ export default function List({ token }) {
   function viewUtilityClasses(view) {
     switch (view) {
       case 'Frequency':
-        return 'w-28 p-2 rounded-tl rounded-bl mr-auto text-lg font-light bg-black bg-opacity-40';
+        return 'w-28 p-2 rounded-tl rounded-bl mr-auto text-lg font-light bg-black bg-opacity-40 hover:bg-gray-700';
       case 'Store Order':
-        return 'w-28 p-2 rounded-tr rounded-br mr-auto text-lg font-light bg-black bg-opacity-40';
+        return 'w-28 p-2 rounded-tr rounded-br mr-auto text-lg font-light bg-black bg-opacity-40 hover:bg-gray-700';
     }
   }
 
@@ -258,7 +259,11 @@ export default function List({ token }) {
     );
   };
 
-  const renderUnorderedList = (doc, color) => {
+  const filterByAlphabetizedStoreOrder = (listItems) => {
+    return filterByUserInput(listItems);
+  };
+
+  const renderFrequencyList = (doc, color) => {
     return (
       <div className="flex items-center" key={doc.id}>
         <FrequencyList
@@ -268,6 +273,22 @@ export default function List({ token }) {
           compareTimeStampsAndUncheckAfter24Hours={
             compareTimeStampsAndUncheckAfter24Hours
           }
+          deleteItem={deleteItem}
+        />
+      </div>
+    );
+  };
+
+  const renderSortableList = (doc, color) => {
+    return (
+      <div className="flex items-center" key={doc.id}>
+        <SortableList
+          doc={doc}
+          color={color}
+          compareTimeStampsAndUncheckAfter24Hours={
+            compareTimeStampsAndUncheckAfter24Hours
+          }
+          markItemPurchased={markItemPurchased}
           deleteItem={deleteItem}
         />
       </div>
@@ -327,7 +348,7 @@ export default function List({ token }) {
                         className={
                           type === selectedView
                             ? viewUtilityClasses(selectedView)
-                            : 'w-28 p-2 rounded ml-auto text-lg font-light'
+                            : 'w-28 p-2 rounded ml-auto text-lg font-light hover:bg-gray-700'
                         }
                         onClick={toggleSelectedView}
                       >
@@ -339,7 +360,7 @@ export default function List({ token }) {
                     <FrequencyFilters
                       filterByLessThanSevenDays={filterByLessThanSevenDays}
                       listItems={listItems}
-                      renderUnorderedList={renderUnorderedList}
+                      renderFrequencyList={renderFrequencyList}
                       filterByMoreThanSevenDaysAndLessThanThirtyDays={
                         filterByMoreThanSevenDaysAndLessThanThirtyDays
                       }
@@ -347,7 +368,15 @@ export default function List({ token }) {
                       filterByRecentlyPurchased={filterByRecentlyPurchased}
                       filterByInactiveItems={filterByInactiveItems}
                     />
-                  ) : null}
+                  ) : (
+                    <SortableFilters
+                      listItems={listItems}
+                      renderSortableList={renderSortableList}
+                      filterByAlphabetizedStoreOrder={
+                        filterByAlphabetizedStoreOrder
+                      }
+                    />
+                  )}
                   <div className="mb-36" />
                 </ul>
               </div>

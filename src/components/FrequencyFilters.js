@@ -1,7 +1,7 @@
 export default function FrequencyFilters({
   filterByLessThanSevenDays,
   listItems,
-  renderUnorderedList,
+  renderFrequencyList,
   filterByMoreThanSevenDaysAndLessThanThirtyDays,
   filterByMoreThanThirtyDays,
   filterByRecentlyPurchased,
@@ -15,7 +15,7 @@ export default function FrequencyFilters({
         </span>
       )}
       {filterByLessThanSevenDays(listItems).map((doc) =>
-        renderUnorderedList(doc, 'text-caribbean-green'),
+        renderFrequencyList(doc, 'text-caribbean-green'),
       )}
 
       {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems).length !==
@@ -25,7 +25,7 @@ export default function FrequencyFilters({
         </span>
       )}
       {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems).map((doc) =>
-        renderUnorderedList(doc, 'text-orange-yellow'),
+        renderFrequencyList(doc, 'text-orange-yellow'),
       )}
 
       {filterByMoreThanThirtyDays(listItems).length !== 0 && (
@@ -34,7 +34,7 @@ export default function FrequencyFilters({
         </span>
       )}
       {filterByMoreThanThirtyDays(listItems).map((doc) =>
-        renderUnorderedList(doc, 'text-paradise-pink'),
+        renderFrequencyList(doc, 'text-paradise-pink'),
       )}
 
       {filterByRecentlyPurchased(listItems).length !== 0 && (
@@ -43,14 +43,14 @@ export default function FrequencyFilters({
         </span>
       )}
       {filterByRecentlyPurchased(listItems).map((doc) =>
-        renderUnorderedList(doc, 'text-blue-400'),
+        renderFrequencyList(doc, 'text-blue-400'),
       )}
 
       {filterByInactiveItems(listItems).length !== 0 && (
         <span className="text-xl md:text-2xl font-light mt-5">...inactive</span>
       )}
       {filterByInactiveItems(listItems).map((doc) =>
-        renderUnorderedList(doc, 'text-gray-200'),
+        renderFrequencyList(doc, 'text-gray-200'),
       )}
     </>
   );

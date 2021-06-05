@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDroppable } from '@dnd-kit/core';
-import DragIcon from '../img/drag.svg';
+// import DragIcon from '../img/drag.svg';
 
-export default function SortableItem({
+export default function SortableList({
   doc,
   compareTimeStampsAndUncheckAfter24Hours,
   markItemPurchased,
@@ -22,7 +22,7 @@ export default function SortableItem({
       key={doc.id}
       className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full"
     >
-      <DragIcon />
+      {/* <DragIcon /> */}
       <input
         type="checkbox"
         className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
