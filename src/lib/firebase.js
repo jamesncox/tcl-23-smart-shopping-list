@@ -5,7 +5,7 @@ import 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyB7Secm50MFF9ZP7P2zGC_iM6qN1Ked07I',
+  apiKey: `{REACT_APP_FIREBASE_KEY}`,
   authDomain: 'honey-do-d3592.firebaseapp.com',
   projectId: 'honey-do-d3592',
   storageBucket: 'honey-do-d3592.appspot.com',
