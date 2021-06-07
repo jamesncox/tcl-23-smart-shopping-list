@@ -153,8 +153,8 @@ export default function List({ token }) {
 
   function deleteItem(item) {
     const itemRef = db.collection('shopping_lists').doc(token);
+    console.log(itemRef);
 
-    console.log(item);
     Swal.fire({
       title: `Delete ${item.item_name.toUpperCase()} from your list?`,
       text: 'Purchase history will be completely erased',
@@ -177,7 +177,7 @@ export default function List({ token }) {
           confirmButtonColor: '#2081C3',
         });
         itemRef.update({
-          item_name: firebase.firestore.FieldValue.delete(item.item_name),
+          items: firebase.firestore.FieldValue.arrayRemove(item),
         });
       }
     });
