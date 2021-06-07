@@ -32,7 +32,7 @@ export default function SortableListItem({
           item.checked &&
           compareTimeStampsAndUncheckAfter24Hours(item, item.item_name)
         }
-        onClick={(e) => markItemPurchased(item.item_name, item)}
+        onClick={(e) => markItemPurchased(item)}
       />
 
       <label htmlFor={item.item_name}>

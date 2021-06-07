@@ -26,10 +26,9 @@ export default function FrequencyList({
         className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
         item_name={item.item_name}
         defaultChecked={
-          item.checked &&
-          compareTimeStampsAndUncheckAfter24Hours(item, item.item_name)
+          item.checked && compareTimeStampsAndUncheckAfter24Hours(item)
         }
-        onClick={(e) => markItemPurchased(item.item_name, item)}
+        onClick={(e) => markItemPurchased(item)}
       />
 
       <label htmlFor={item.item_name}>
