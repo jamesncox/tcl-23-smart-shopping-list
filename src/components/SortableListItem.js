@@ -10,13 +10,13 @@ export default function SortableListItem({
   editable,
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: item.item_name });
+    useSortable({ id: 'item.item_name' });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
-
+  console.log(item);
   return (
     <li
       ref={setNodeRef}
@@ -30,19 +30,19 @@ export default function SortableListItem({
         className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
         id={item.item_name}
         defaultChecked={
-          item.data().checked &&
+          item.checked &&
           compareTimeStampsAndUncheckAfter24Hours(item, item.item_name)
         }
-        onClick={(e) => markItemPurchased(item.item_name, item.data())}
+        onClick={(e) => markItemPurchased(item.item_name, item)}
       />
 
       <label htmlFor={item.item_name}>
         <p
-          aria-label={item.data().item_name}
+          aria-label={item.item_name}
           id={item.item_name}
           className="text-md md:text-lg cursor-pointer"
         >
-          {item.data().item_name}
+          {item.item_name}
         </p>
       </label>
       {editable ? (

@@ -26,19 +26,19 @@ export default function FrequencyList({
         className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
         item_name={item.item_name}
         defaultChecked={
-          item.data().checked &&
+          item.checked &&
           compareTimeStampsAndUncheckAfter24Hours(item, item.item_name)
         }
-        onClick={(e) => markItemPurchased(item.item_name, item.data())}
+        onClick={(e) => markItemPurchased(item.item_name, item)}
       />
 
       <label htmlFor={item.item_name}>
         <p
-          aria-label={item.data().item_name}
+          aria-label={item.item_name}
           item_name={item.item_name}
           className="text-md md:text-lg cursor-pointer"
         >
-          {item.data().item_name}
+          {item.item_name}
         </p>
       </label>
       <button
@@ -56,7 +56,7 @@ export default function FrequencyList({
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWitem_nameth={2}
+            // strokeWitem_nameth={2}
             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
           />
         </svg>

@@ -136,10 +136,7 @@ export default function List({ token }) {
     }
   }
 
-  const checkForInactiveItem = (itemData) => {
-    // pass in the item and create a variable for item.data() here
-    const item = itemData.data();
-
+  const checkForInactiveItem = (item) => {
     // calculate if the duration between now and last_purchased is greater than DOUBLE the last_estimate
     const doubleLastEstimate = item.last_estimate * 2;
     const currentDateTime = DateTime.now();
@@ -155,6 +152,9 @@ export default function List({ token }) {
   };
 
   function deleteItem(item) {
+    const itemRef = db.collection('shopping_lists').doc(token);
+
+    console.log(item);
     Swal.fire({
       title: `Delete ${item.item_name.toUpperCase()} from your list?`,
       text: 'Purchase history will be completely erased',
@@ -176,7 +176,9 @@ export default function List({ token }) {
           buttonsStyling: true,
           confirmButtonColor: '#2081C3',
         });
-        db.collection(token).doc(item.item_name).delete();
+        itemRef.update({
+          item_name: firebase.firestore.FieldValue.delete(item.item_name),
+        });
       }
     });
   }
@@ -196,12 +198,10 @@ export default function List({ token }) {
 
   const filterByUserInput = (item) => {
     // first alphabetize all the items then filter for the user's searched item(s)
-    return alphabetizeListItems(item.docs).filter(
-      (doc) =>
-        doc
-          .data()
-          .item_name.toLowerCase()
-          .includes(query.toLowerCase().trim()) || query === '',
+    return alphabetizeListItems(item).filter(
+      (data) =>
+        data.item_name.toLowerCase().includes(query.toLowerCase().trim()) ||
+        query === '',
     );
   };
 
@@ -281,19 +281,17 @@ export default function List({ token }) {
     return listData
       .data()
       .items.filter(
-        (doc) =>
-          doc
-            .data()
-            .item_name.toLowerCase()
-            .includes(query.toLowerCase().trim()) || query === '',
+        (item) =>
+          item.item_name.toLowerCase().includes(query.toLowerCase().trim()) ||
+          query === '',
       );
   };
 
-  const renderFrequencyList = (doc, color) => {
+  const renderFrequencyList = (item, color) => {
     return (
-      <div className="flex items-center" key={doc.id}>
+      <div className="flex items-center" key={item.item_name}>
         <FrequencyList
-          doc={doc}
+          item={item}
           color={color}
           markItemPurchased={markItemPurchased}
           compareTimeStampsAndUncheckAfter24Hours={
