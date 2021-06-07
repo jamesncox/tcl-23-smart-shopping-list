@@ -85,6 +85,10 @@ export default function AddItem({ token }) {
         items: firebase.firestore.FieldValue.arrayUnion(newItemObject),
         sort_order: firebase.firestore.FieldValue.arrayUnion(itemName),
       });
+      itemRef
+        .collection('items')
+        .document(newItemObject.item_name)
+        .add(newItemObject);
       history.push('/list');
     }
   }

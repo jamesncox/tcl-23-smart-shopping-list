@@ -70,10 +70,8 @@ export default function List({ token }) {
 
   const markItemPurchased = (item) => {
     const currentDateTime = DateTime.now();
-    const itemRef = db
-      .collection('shopping_lists')
-      .doc(token)
-      .collection('items');
+    const itemRef = db.collection('shopping_lists').doc(token);
+    // .collection('items');
 
     console.log(itemRef);
 
@@ -90,7 +88,7 @@ export default function List({ token }) {
         };
 
         itemRef.update({
-          checked: firebase.firestore.FieldValue.arrayUnion(updatedItemObj),
+          items: firebase.firestore.FieldValue.arrayUnion(updatedItemObj),
         });
       } else {
         // if an item has at least 1 times_purchased, calculate the latestInterval with Interval from Luxon
