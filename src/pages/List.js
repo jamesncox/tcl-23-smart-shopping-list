@@ -20,7 +20,7 @@ const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 export default function List({ token }) {
   const history = useHistory();
 
-  const [listData, error, loading] = useDocument(
+  const [listData, loading, error] = useDocument(
     firebase.firestore().doc(`shopping_lists/${token}`),
     {
       snapshotListenOptions: { includeMetadataChanges: true },

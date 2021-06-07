@@ -10,13 +10,12 @@ export default function SortableListItem({
   editable,
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: 'item.item_name' });
+    useSortable({ id: item.item_name });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
-  console.log(item);
   return (
     <li
       ref={setNodeRef}
