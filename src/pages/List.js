@@ -178,6 +178,7 @@ export default function List({ token }) {
         });
         itemRef.update({
           items: firebase.firestore.FieldValue.arrayRemove(item),
+          sort_order: firebase.firestore.FieldValue.arrayRemove(item.item_name),
         });
       }
     });
