@@ -11,11 +11,14 @@ export default function AddItem({ token }) {
   const [purchaseFrequency, setPurchaseFrequency] = useState(null);
 
   const [listData] = useDocument(
-    firebase.firestore().doc(`shopping_lists/${token}`),
+    firebase.firestore().doc(`shopping_lists/${token}/items/id`),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     },
   );
+
+  // const shoppingListsRef = db.collection('shopping_lists').doc(token);
+  // console.log(shoppingListsRef.docs);
 
   const history = useHistory();
 
@@ -44,6 +47,7 @@ export default function AddItem({ token }) {
   };
 
   function createListItem(e) {
+    debugger;
     e.preventDefault();
 
     const newItemObject = {
