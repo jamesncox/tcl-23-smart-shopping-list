@@ -18,12 +18,17 @@ export default function Home({ setToken, currentToken }) {
     addKeyValuePairToLocalStorage('token', token);
     setToken(token);
 
+    db.collection('shopping_lists').doc(token).set({
+      // items: [],
+      sort_order: [],
+    });
+
     db.collection('shopping_lists')
       .doc(token)
-      .set({
-        items: [],
-        sort_order: [],
-      })
+      .collection('items')
+      .doc()
+      .set({ initial_entry: 'hello world' })
+
       .then(() => {
         console.log('Document successfully written!');
       })
