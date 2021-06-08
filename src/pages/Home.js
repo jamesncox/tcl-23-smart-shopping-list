@@ -19,15 +19,12 @@ export default function Home({ setToken, currentToken }) {
     setToken(token);
 
     db.collection('shopping_lists').doc(token).set({
-      // items: [],
       sort_order: [],
     });
 
     db.collection('shopping_lists')
       .doc(token)
-      .collection('items')
-      .doc()
-      .set({ initial_entry: 'hello world' })
+      .set({ sort_order: [] })
 
       .then(() => {
         console.log('Document successfully written!');
