@@ -1,16 +1,16 @@
 # TO DO
 
-[ ] Create a new Firestore database and wire up the connection
-
 [ ] Add the `Add item` form as a Sweet Alert 2 modal so that the user can see the items being added to their list
 
 [ ] Add a higher-quality logo. It's just too grainy on desktop
 
 [ ] Create a View List option that utilizes drag and drop, that initially displays the items alphabetically, and then the user can order them in the order that they go shopping around the store. And can switch between suggested purchase frequency and "Store Order"
 
-[ ] Style checkboxes and likey switch to YARN for package manager.
-
 ## Completed To Dos
+
+[x] Create a new Firestore database and wire up the connection
+
+[x] Style checkboxes and likey switch to YARN for package manager.
 
 [x] Add a "recently purchased" category when the items are clicked purchased in local state, but only local state
 
