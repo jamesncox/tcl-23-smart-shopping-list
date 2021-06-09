@@ -10,6 +10,8 @@ import IconButton from '../components/IconButton';
 import writingToken from './../img/writingToken.png';
 import { Redirect } from 'react-router';
 
+const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
+
 export default function List({ token }) {
   const history = useHistory();
   const [listItems, loading, error] = useCollection(db.collection(token), {
