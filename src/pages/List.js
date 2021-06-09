@@ -414,11 +414,12 @@ export default function List({ token }) {
                             editable ? (
                               <Draggable
                                 key={item.id}
-                                draggableitem={item.id}
+                                draggableId={item.id}
                                 index={index}
                               >
                                 {(provided) => (
                                   <li
+                                    key={item.id}
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
@@ -466,7 +467,10 @@ export default function List({ token }) {
                                 )}
                               </Draggable>
                             ) : (
-                              <li className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full">
+                              <li
+                                className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full"
+                                key={item.id}
+                              >
                                 <input
                                   type="checkbox"
                                   className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
