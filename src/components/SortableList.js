@@ -8,7 +8,7 @@ export default function SortableList({
   editable,
 }) {
   return (
-    <>
+    <ul className="flex flex-col w-full">
       {listData.length !== 0 && (
         <div className="flex items-center full mt-5 mb-1">
           <span className="text-xl md:text-2xl font-light">shopping order</span>
@@ -23,6 +23,6 @@ export default function SortableList({
       {filterSortableItems(listData).map((doc) =>
         renderSortableListItem(doc, 'text-blue-400'),
       )}
-    </>
+    </ul>
   );
 }

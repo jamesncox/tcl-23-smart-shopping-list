@@ -356,47 +356,45 @@ export default function List({ token }) {
                 />
               </section>
             ) : (
-              <div className="w-full">
-                <ul className="flex flex-col w-full">
-                  <nav className="m-auto grid grid-cols-2 rounded mt-2 bg-black bg-opacity-20">
-                    {viewOptions.map(({ type }) => (
-                      <button
-                        key={type}
-                        id={type}
-                        className={
-                          type === selectedView
-                            ? viewUtilityClasses(selectedView)
-                            : 'w-28 p-2 rounded ml-auto text-lg font-light hover:bg-gray-700'
-                        }
-                        onClick={toggleSelectedView}
-                      >
-                        {type}
-                      </button>
-                    ))}
-                  </nav>
-                  {selectedView === 'Frequency' ? (
-                    <FrequencyFilters
-                      filterByLessThanSevenDays={filterByLessThanSevenDays}
-                      listData={listItems}
-                      renderFrequencyList={renderFrequencyList}
-                      filterByMoreThanSevenDaysAndLessThanThirtyDays={
-                        filterByMoreThanSevenDaysAndLessThanThirtyDays
+              <div className="flex flex-col w-full">
+                <nav className="m-auto grid grid-cols-2 rounded mt-2 bg-black bg-opacity-20">
+                  {viewOptions.map(({ type }) => (
+                    <button
+                      key={type}
+                      id={type}
+                      className={
+                        type === selectedView
+                          ? viewUtilityClasses(selectedView)
+                          : 'w-28 p-2 rounded ml-auto text-lg font-light hover:bg-gray-700'
                       }
-                      filterByMoreThanThirtyDays={filterByMoreThanThirtyDays}
-                      filterByRecentlyPurchased={filterByRecentlyPurchased}
-                      filterByInactiveItems={filterByInactiveItems}
-                    />
-                  ) : (
-                    <SortableList
-                      listData={listItems}
-                      renderSortableListItem={renderSortableListItem}
-                      filterSortableItems={filterSortableItems}
-                      toggleEditable={toggleEditable}
-                      editable={editable}
-                    />
-                  )}
-                  <div className="mb-36" />
-                </ul>
+                      onClick={toggleSelectedView}
+                    >
+                      {type}
+                    </button>
+                  ))}
+                </nav>
+                {selectedView === 'Frequency' ? (
+                  <FrequencyFilters
+                    filterByLessThanSevenDays={filterByLessThanSevenDays}
+                    listData={listItems}
+                    renderFrequencyList={renderFrequencyList}
+                    filterByMoreThanSevenDaysAndLessThanThirtyDays={
+                      filterByMoreThanSevenDaysAndLessThanThirtyDays
+                    }
+                    filterByMoreThanThirtyDays={filterByMoreThanThirtyDays}
+                    filterByRecentlyPurchased={filterByRecentlyPurchased}
+                    filterByInactiveItems={filterByInactiveItems}
+                  />
+                ) : (
+                  <SortableList
+                    listData={listItems}
+                    renderSortableListItem={renderSortableListItem}
+                    filterSortableItems={filterSortableItems}
+                    toggleEditable={toggleEditable}
+                    editable={editable}
+                  />
+                )}
+                <div className="mb-36" />
               </div>
             )}
           </>
