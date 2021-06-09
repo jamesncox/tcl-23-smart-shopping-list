@@ -277,6 +277,39 @@ export default function List({ token }) {
     );
   };
 
+  const renderFrequencyList = (item, color) => {
+    return (
+      <div className="flex items-center" key={item.id}>
+        {/* <FrequencyList
+          item={item}
+          color={color}
+          markItemPurchased={markItemPurchased}
+          compareTimeStampsAndUncheckAfter24Hours={
+            compareTimeStampsAndUncheckAfter24Hours
+          }
+          deleteItem={deleteItem}
+        /> */}
+      </div>
+    );
+  };
+
+  const renderSortableList = (item, color) => {
+    return (
+      <div className="flex items-center" key={item.id}>
+        {/* <SortableListItem
+          item={item}
+          color={color}
+          compareTimeStampsAndUncheckAfter24Hours={
+            compareTimeStampsAndUncheckAfter24Hours
+          }
+          markItemPurchased={markItemPurchased}
+          deleteItem={deleteItem}
+          editable={editable}
+        /> */}
+      </div>
+    );
+  };
+
   const renderUnorderedList = (doc, color) => {
     return (
       <div className="flex items-center" key={doc.id}>
