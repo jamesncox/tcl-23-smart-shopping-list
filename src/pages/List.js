@@ -17,8 +17,9 @@ export default function List({ token }) {
   const [listItems, loading, error] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
-  const [query, setQuery] = useState('');
 
+  // set and clear user query for item filter
+  const [query, setQuery] = useState('');
   function handleReset() {
     setQuery('');
   }
