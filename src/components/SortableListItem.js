@@ -3,12 +3,15 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 export default function SortableListItem({
+  id,
   item,
   compareTimeStampsAndUncheckAfter24Hours,
   markItemPurchased,
   deleteItem,
   editable,
 }) {
+  console.log(item);
+
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.item_name });
 
@@ -30,10 +33,9 @@ export default function SortableListItem({
         className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
         id={item.item_name}
         defaultChecked={
-          item.checked &&
-          compareTimeStampsAndUncheckAfter24Hours(item, item.item_name)
+          item.checked && compareTimeStampsAndUncheckAfter24Hours(item, id)
         }
-        onClick={(e) => markItemPurchased(item)}
+        onClick={(e) => markItemPurchased(item, id)}
       />
 
       <label htmlFor={item.item_name}>
@@ -42,7 +44,7 @@ export default function SortableListItem({
           id={item.item_name}
           className="text-md md:text-lg cursor-pointer"
         >
-          {item.data().item_name}
+          {item.item_name}
         </p>
       </label>
       {editable ? (

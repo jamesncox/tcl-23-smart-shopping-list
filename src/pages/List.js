@@ -62,39 +62,39 @@ export default function List({ token }) {
     );
   };
 
-  const markItemPurchased = (id, itemData) => {
+  const markItemPurchased = (item, id) => {
     const currentDateTime = DateTime.now();
 
-    if (itemData.checked === false) {
+    if (item.checked === false) {
       // if an item has not yet been purchased, last_estimate has no value, so we initialize with the user's selected purchase_frequency
-      if (itemData.times_purchased === 0) {
+      if (item.times_purchased === 0) {
         db.collection(token)
           .doc(id)
           .update({
             last_purchased: currentDateTime.toString(),
-            times_purchased: itemData.times_purchased + 1,
-            last_estimate: itemData.purchase_frequency,
+            times_purchased: item.times_purchased + 1,
+            last_estimate: item.purchase_frequency,
             checked: true,
           });
       } else {
         // if an item has at least 1 times_purchased, calculate the latestInterval with Interval from Luxon
         // and use the previous last_estimate property to update the database's last_estimate property with latestEstimate
         const latestInterval = calculateLatestInterval(
-          itemData.last_purchased,
+          item.last_purchased,
           currentDateTime,
         );
 
         const latestEstimate = calculateEstimate(
-          itemData.last_estimate,
+          item.last_estimate,
           latestInterval,
-          itemData.times_purchased,
+          item.times_purchased,
         );
 
         db.collection(token)
           .doc(id)
           .update({
             last_purchased: currentDateTime.toString(),
-            times_purchased: itemData.times_purchased + 1,
+            times_purchased: item.times_purchased + 1,
             last_estimate: latestEstimate,
             checked: true,
           });
@@ -110,7 +110,7 @@ export default function List({ token }) {
     // determine the amount days between now and last_purchase
     const currentDateTime = DateTime.now();
     const latestInterval = calculateLatestInterval(
-      item.data().last_purchased,
+      item.last_purchased,
       currentDateTime,
     );
 
@@ -286,7 +286,8 @@ export default function List({ token }) {
     return (
       <div className="flex items-center" key={item.id}>
         <FrequencyList
-          item={item}
+          id={item.id}
+          item={item.data()}
           color={color}
           markItemPurchased={markItemPurchased}
           compareTimeStampsAndUncheckAfter24Hours={
@@ -302,7 +303,8 @@ export default function List({ token }) {
     return (
       <div className="flex items-center" key={item.id}>
         <SortableListItem
-          item={item}
+          id={item.id}
+          item={item.data()}
           color={color}
           compareTimeStampsAndUncheckAfter24Hours={
             compareTimeStampsAndUncheckAfter24Hours
