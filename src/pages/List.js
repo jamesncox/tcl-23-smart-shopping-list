@@ -24,6 +24,12 @@ export default function List({ token }) {
     setQuery('');
   }
 
+  // set and toggle the viewOptions Frequency or Store Order
+  const [selectedView, setSelectedView] = useState('Frequency');
+  const toggleSelectedView = (e) => {
+    setSelectedView(e.target.id);
+  };
+
   const calculateLatestInterval = (lastPurchased, currentDateTime) => {
     return Math.floor(
       Interval.fromDateTimes(DateTime.fromISO(lastPurchased), currentDateTime)
