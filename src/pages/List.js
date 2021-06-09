@@ -9,9 +9,9 @@ import Button from '../components/Button';
 import writingToken from './../img/writingToken.png';
 import { Redirect } from 'react-router';
 import FrequencyList from '../components/FrequencyList';
-import SortableListItem from '../components/SortableListItem';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import FilterItems from '../components/FilterItems';
-import SortableList from '../components/SortableList';
+// import SortableList from '../components/SortableList';
 import FrequencyFilters from '../components/FrequencyFilters';
 
 const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
@@ -22,15 +22,15 @@ export default function List({ token }) {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
-  const [sortableData, setSortableData] = useState([]);
-  useEffect(() => {
-    if (listItems) {
-      const itemsArray = listItems.docs.map((item) => {
-        return item.data();
-      });
-      setSortableData(itemsArray);
-    }
-  }, [listItems]);
+  // const [sortableData, setSortableData] = useState([]);
+  // useEffect(() => {
+  //   if (listItems) {
+  //     const itemsArray = listItems.docs.map((item) => {
+  //       return item.data();
+  //     });
+  //     setSortableData(itemsArray);
+  //   }
+  // }, [listItems]);
 
   // set and clear user query for item filter
   const [query, setQuery] = useState('');
@@ -283,8 +283,8 @@ export default function List({ token }) {
     );
   };
 
-  const filterSortableItems = () => {
-    return listItems.docs.filter(
+  const filterSortableItems = (data) => {
+    return data.docs.filter(
       (item) =>
         item
           .data()
@@ -310,23 +310,16 @@ export default function List({ token }) {
     );
   };
 
-  const renderSortableListItem = (item, color, index) => {
-    return (
-      <div className="flex items-center" key={item.id}>
-        <SortableListItem
-          index={index}
-          id={item.id}
-          item={item.data()}
-          color={color}
-          compareTimeStampsAndUncheckAfter24Hours={
-            compareTimeStampsAndUncheckAfter24Hours
-          }
-          markItemPurchased={markItemPurchased}
-          deleteItem={deleteItem}
-          editable={editable}
-        />
-      </div>
-    );
+  const [listData, updateListData] = useState(listItems);
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const items = Array.from(listData);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    console.log(items);
+
+    updateListData(items);
   };
 
   if (!token) {
@@ -398,13 +391,136 @@ export default function List({ token }) {
                     filterByInactiveItems={filterByInactiveItems}
                   />
                 ) : (
-                  <SortableList
-                    sortableData={sortableData}
-                    renderSortableListItem={renderSortableListItem}
-                    filterSortableItems={filterSortableItems}
-                    toggleEditable={toggleEditable}
-                    editable={editable}
-                  />
+                  <DragDropContext onDragEnd={handleOnDragEnd}>
+                    <Droppable droppableId="sortable-items">
+                      {(provided) => (
+                        <ul
+                          className="flex flex-col w-full"
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                        >
+                          <div className="flex items-center full mt-5 mb-1">
+                            <span className="text-xl md:text-2xl font-light">
+                              shopping order
+                            </span>
+                            <button
+                              className="w-16 ml-auto bg-gray-900 bg-opacity-50 rounded p-2 hover:bg-gray-700"
+                              onClick={toggleEditable}
+                            >
+                              {editable ? 'Done' : 'Edit'}
+                            </button>
+                          </div>
+                          {filterSortableItems(listItems).map((item, index) =>
+                            editable ? (
+                              <Draggable
+                                key={item.id}
+                                draggableitem={item.id}
+                                index={index}
+                              >
+                                {(provided) => (
+                                  <li
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                      className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
+                                      id={item.data().item_name}
+                                      defaultChecked={
+                                        item.data().checked &&
+                                        compareTimeStampsAndUncheckAfter24Hours(
+                                          item.data(),
+                                          item.id,
+                                        )
+                                      }
+                                      onClick={(e) =>
+                                        markItemPurchased(item.data(), item.id)
+                                      }
+                                    />
+
+                                    <label htmlFor={item.data().item_name}>
+                                      <p
+                                        aria-label={item.data().item_name}
+                                        className="text-md md:text-lg"
+                                      >
+                                        {item.data().item_name}
+                                      </p>
+                                    </label>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-6 w-6 ml-auto mx-2 hover:text-caribbean-green"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M4 6h16M4 12h16M4 18h16"
+                                      />
+                                    </svg>
+                                  </li>
+                                )}
+                              </Draggable>
+                            ) : (
+                              <li className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full">
+                                <input
+                                  type="checkbox"
+                                  className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
+                                  id={item.id}
+                                  defaultChecked={
+                                    item.data().checked &&
+                                    compareTimeStampsAndUncheckAfter24Hours(
+                                      item.data(),
+                                      item.id,
+                                    )
+                                  }
+                                  onClick={(e) =>
+                                    markItemPurchased(item.data(), item.id)
+                                  }
+                                />
+
+                                <label htmlFor={item.data().item_name}>
+                                  <p
+                                    aria-label={item.data().item_name}
+                                    className="text-md md:text-lg"
+                                  >
+                                    {item.data().item_name}
+                                  </p>
+                                </label>
+                                <button
+                                  className="ml-auto"
+                                  key={item.data().item_name}
+                                  onClick={() =>
+                                    deleteItem(item.data(), item.id)
+                                  }
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6 mx-2 hover:text-red-500"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                    />
+                                  </svg>
+                                </button>
+                              </li>
+                            ),
+                          )}
+                          {provided.placeholder}
+                        </ul>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
                 )}
                 <div className="mb-36" />
               </div>
