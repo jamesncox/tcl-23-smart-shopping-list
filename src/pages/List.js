@@ -10,6 +10,7 @@ import IconButton from '../components/IconButton';
 import writingToken from './../img/writingToken.png';
 import { Redirect } from 'react-router';
 import FrequencyList from '../components/FrequencyList';
+import SortableListItem from '../components/SortableListItem';
 
 const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 
@@ -297,7 +298,7 @@ export default function List({ token }) {
   const renderSortableList = (item, color) => {
     return (
       <div className="flex items-center" key={item.id}>
-        {/* <SortableListItem
+        <SortableListItem
           item={item}
           color={color}
           compareTimeStampsAndUncheckAfter24Hours={
@@ -306,7 +307,7 @@ export default function List({ token }) {
           markItemPurchased={markItemPurchased}
           deleteItem={deleteItem}
           editable={editable}
-        /> */}
+        />
       </div>
     );
   };
