@@ -30,6 +30,16 @@ export default function List({ token }) {
     setSelectedView(e.target.id);
   };
 
+  // set the editable value and toggle true/false
+  const [editable, setEditable] = useState(false);
+  const toggleEditable = () => {
+    if (editable) {
+      setEditable(false);
+    } else {
+      setEditable(true);
+    }
+  };
+
   const calculateLatestInterval = (lastPurchased, currentDateTime) => {
     return Math.floor(
       Interval.fromDateTimes(DateTime.fromISO(lastPurchased), currentDateTime)
