@@ -267,6 +267,16 @@ export default function List({ token }) {
     );
   };
 
+  const filterSortableItems = () => {
+    return listItems.docs.filter(
+      (item) =>
+        item
+          .data()
+          .item_name.toLowerCase()
+          .includes(query.toLowerCase().trim()) || query === '',
+    );
+  };
+
   const renderUnorderedList = (doc, color) => {
     return (
       <div className="flex items-center" key={doc.id}>
