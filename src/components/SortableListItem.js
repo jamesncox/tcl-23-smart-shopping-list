@@ -10,8 +10,6 @@ export default function SortableListItem({
   deleteItem,
   editable,
 }) {
-  console.log(item);
-
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.item_name });
 
@@ -68,7 +66,7 @@ export default function SortableListItem({
         <button
           className="ml-auto"
           key={item.item_name}
-          onClick={() => deleteItem(item)}
+          onClick={() => deleteItem(item, id)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

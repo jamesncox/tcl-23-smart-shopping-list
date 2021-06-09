@@ -147,9 +147,9 @@ export default function List({ token }) {
     return false;
   };
 
-  function deleteItem(doc) {
+  function deleteItem(doc, id) {
     Swal.fire({
-      title: `Delete ${doc.data().item_name.toUpperCase()} from your list?`,
+      title: `Delete ${doc.item_name.toUpperCase()} from your list?`,
       text: 'Purchase history will be completely erased',
       icon: 'warning',
       iconColor: '#F5AB00',
@@ -163,13 +163,13 @@ export default function List({ token }) {
       if (result.isConfirmed) {
         Swal.fire({
           title: 'Deleted!',
-          text: `${doc.data().item_name.toUpperCase()} has been deleted.`,
+          text: `${doc.item_name.toUpperCase()} has been deleted.`,
           icon: 'success',
           iconColor: '#049F76',
           buttonsStyling: true,
           confirmButtonColor: '#2081C3',
         });
-        db.collection(token).doc(doc.id).delete();
+        db.collection(token).doc(id).delete();
       }
     });
   }

@@ -44,7 +44,7 @@ export default function FrequencyList({
       <button
         className="ml-auto"
         key={item.item_name}
-        onClick={() => deleteItem(item)}
+        onClick={() => deleteItem(item, id)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
