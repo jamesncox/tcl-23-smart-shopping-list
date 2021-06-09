@@ -8,8 +8,20 @@ export default function SortableList({
   toggleEditable,
   editable,
 }) {
+  const [listItems, updateListItems] = useState(listData);
+
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const items = Array.from(listItems);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    updateListItems(items);
+  };
+
   return (
-    <DragDropContext>
+    <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId="sortable-items">
         {(provided) => (
           <ul
@@ -30,9 +42,10 @@ export default function SortableList({
                 </button>
               </div>
             )}
-            {filterSortableItems(listData).map((doc, index) =>
+            {filterSortableItems(listItems).map((doc, index) =>
               renderSortableListItem(doc, 'text-blue-400', index),
             )}
+            {provided.placeholder}
           </ul>
         )}
       </Droppable>
