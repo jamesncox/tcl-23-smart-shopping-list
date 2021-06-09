@@ -17,7 +17,6 @@ export default function SortableListItem({
     transition,
   };
 
-  console.log(item.data().item_name);
   return (
     <li
       ref={setNodeRef}
