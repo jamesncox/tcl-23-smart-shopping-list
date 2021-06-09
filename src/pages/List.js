@@ -299,10 +299,11 @@ export default function List({ token }) {
     );
   };
 
-  const renderSortableListItem = (item, color) => {
+  const renderSortableListItem = (item, color, index) => {
     return (
       <div className="flex items-center" key={item.id}>
         <SortableListItem
+          index={index}
           id={item.id}
           item={item.data()}
           color={color}
