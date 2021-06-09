@@ -40,6 +40,15 @@ export default function List({ token }) {
     }
   };
 
+  function viewUtilityClasses(view) {
+    switch (view) {
+      case 'Frequency':
+        return 'w-28 p-2 rounded-tl rounded-bl mr-auto text-lg font-light bg-black bg-opacity-40 hover:bg-gray-700';
+      case 'Store Order':
+        return 'w-28 p-2 rounded-tr rounded-br mr-auto text-lg font-light bg-black bg-opacity-40 hover:bg-gray-700';
+    }
+  }
+
   const calculateLatestInterval = (lastPurchased, currentDateTime) => {
     return Math.floor(
       Interval.fromDateTimes(DateTime.fromISO(lastPurchased), currentDateTime)
