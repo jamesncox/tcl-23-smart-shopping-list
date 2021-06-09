@@ -37,7 +37,7 @@ export default function FrequencyList({
           <p
             aria-label={item.item_name}
             item_name={item.item_name}
-            className="text-md md:text-lg cursor-pointer"
+            className="text-md md:text-lg"
           >
             {item.item_name}
           </p>
