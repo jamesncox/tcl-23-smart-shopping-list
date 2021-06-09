@@ -1,20 +1,5 @@
 import React, { useState } from 'react';
 
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-
 export default function SortableList({
   listData,
   renderSortableListItem,
@@ -22,33 +7,7 @@ export default function SortableList({
   toggleEditable,
   editable,
 }) {
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
-
-  // function handleDragEnd(event) {
-  //   const { active, over } = event;
-
-  //   if (active.id !== over.id) {
-  //     setItems((items) => {
-  //       const oldIndex = items.indexOf(active.id);
-  //       const newIndex = items.indexOf(over.id);
-
-  //       return arrayMove(items, oldIndex, newIndex);
-  //     });
-  //   }
-  // }
-
   return (
-    // <DndContext
-    //   sensors={sensors}
-    //   collisionDetection={closestCenter}
-    //   // onDragEnd={handleDragEnd}
-    // >
-    //   <SortableContext strategy={verticalListSortingStrategy}>
     <>
       {listData.length !== 0 && (
         <div className="flex items-center full mt-5 mb-1">
@@ -65,7 +24,5 @@ export default function SortableList({
         renderSortableListItem(doc, 'text-blue-400'),
       )}
     </>
-    //   </SortableContext>
-    // </DndContext>
   );
 }

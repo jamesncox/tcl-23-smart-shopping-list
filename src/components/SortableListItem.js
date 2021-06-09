@@ -1,6 +1,4 @@
 import React from 'react';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 
 export default function SortableListItem({
   id,
@@ -10,21 +8,10 @@ export default function SortableListItem({
   deleteItem,
   editable,
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: item.item_name });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
   return (
     <li
-      ref={setNodeRef}
-      style={style}
       key={item.item_name}
       className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full"
-      {...listeners}
     >
       <input
         type="checkbox"
@@ -46,7 +33,7 @@ export default function SortableListItem({
         </p>
       </label>
       {editable ? (
-        <button className="ml-auto" key={item.item_name} {...attributes}>
+        <button className="ml-auto" key={item.item_name}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 mx-2 hover:text-caribbean-green"
