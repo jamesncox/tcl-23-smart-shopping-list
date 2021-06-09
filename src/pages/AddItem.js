@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { db } from '../lib/firebase';
-import { useDocument } from 'react-firebase-hooks/firestore';
+import { useCollection } from 'react-firebase-hooks/firestore';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
 import Button from '../components/Button';
@@ -8,17 +8,31 @@ import firebase from 'firebase/app';
 
 export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
+  const [listData, setListData] = useState([]);
   const [purchaseFrequency, setPurchaseFrequency] = useState(null);
 
-  const [listData] = useDocument(
-    firebase.firestore().doc(`shopping_lists/${token}/items/id`),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    },
-  );
+  // const [listData] = useCollection(
+  //   firebase.firestore().doc(`shopping_lists/${token}`),
+  //   {
+  //     snapshotListenOptions: { includeMetadataChanges: true },
+  //   },
+  // );
 
-  // const shoppingListsRef = db.collection('shopping_lists').doc(token);
-  // console.log(shoppingListsRef.docs);
+  useEffect(() => {
+    const itemsArray = [];
+    db.collection('shopping_lists')
+      .doc(token)
+      .collection('items')
+      .get()
+      .then((snap) => {
+        snap.forEach((doc) => {
+          itemsArray.push(doc.data());
+        });
+      });
+    setListData(itemsArray);
+  }, []);
+
+  console.log(listData);
 
   const history = useHistory();
 
@@ -37,7 +51,7 @@ export default function AddItem({ token }) {
   const doesItemExistInDatabase = () => {
     const normalizedUserInput = normalizeString(itemName);
 
-    const matchingItemName = listData.data().items.filter((item) => {
+    const matchingItemName = listData.filter((item) => {
       const normalizedDatabaseItem = normalizeString(item.item_name);
 
       return normalizedDatabaseItem === normalizedUserInput;
@@ -47,7 +61,6 @@ export default function AddItem({ token }) {
   };
 
   function createListItem(e) {
-    debugger;
     e.preventDefault();
 
     const newItemObject = {
@@ -59,38 +72,38 @@ export default function AddItem({ token }) {
       checked: false,
     };
 
-    // const itemExists = doesItemExistInDatabase(itemName);
+    const itemExists = doesItemExistInDatabase(itemName);
 
-    // if (itemExists) {
-    //   Swal.fire({
-    //     title: 'OH GOSH!',
-    //     text: `${normalizeString(
-    //       itemName,
-    //     ).toUpperCase()} is already in your list`,
+    if (itemExists) {
+      Swal.fire({
+        title: 'OH GOSH!',
+        text: `${normalizeString(
+          itemName,
+        ).toUpperCase()} is already in your list`,
 
-    //     icon: 'error',
-    //     buttonsStyling: true,
-    //     iconColor: '#EF476F',
-    //     width: '28rem',
-    //     confirmButtonColor: '#073B4C',
-    //   });
-    // } else if (!itemName || !purchaseFrequency) {
-    //   Swal.fire({
-    //     title: 'UH OH!',
-    //     text: 'Must have an item name and purchase frequency',
-    //     icon: 'warning',
-    //     iconColor: '#F5AB00',
-    //     confirmButtonColor: '#073B4C',
-    //   });
-    // } else {
-    const itemRef = db.collection('shopping_lists').doc(token);
+        icon: 'error',
+        buttonsStyling: true,
+        iconColor: '#EF476F',
+        width: '28rem',
+        confirmButtonColor: '#073B4C',
+      });
+    } else if (!itemName || !purchaseFrequency) {
+      Swal.fire({
+        title: 'UH OH!',
+        text: 'Must have an item name and purchase frequency',
+        icon: 'warning',
+        iconColor: '#F5AB00',
+        confirmButtonColor: '#073B4C',
+      });
+    } else {
+      const itemRef = db.collection('shopping_lists').doc(token);
 
-    itemRef.update({
-      sort_order: firebase.firestore.FieldValue.arrayUnion(itemName),
-    });
-    itemRef.collection('items').doc().set(newItemObject);
-    history.push('/list');
-    // }
+      itemRef.update({
+        sort_order: firebase.firestore.FieldValue.arrayUnion(itemName),
+      });
+      itemRef.collection('items').doc().set(newItemObject);
+      history.push('/list');
+    }
   }
 
   return (
