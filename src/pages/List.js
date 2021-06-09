@@ -11,6 +11,7 @@ import writingToken from './../img/writingToken.png';
 import { Redirect } from 'react-router';
 import FrequencyList from '../components/FrequencyList';
 import SortableListItem from '../components/SortableListItem';
+import FilterItems from '../components/FilterItems';
 
 const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 
@@ -386,36 +387,11 @@ export default function List({ token }) {
         <label htmlFor="thesearch" className="opacity-0">
           Search Grocery List Items{' '}
         </label>
-        <div className="flex mb-5 mt-5">
-          <input
-            className="w-full pl-5 py-2 rounded bg-midnight-green border border-gray-200"
-            type="text"
-            placeholder="Find item"
-            value={query}
-            id="thesearch"
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <IconButton
-            onClick={handleReset}
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            }
-            label="clear input"
-          />
-        </div>
+        <FilterItems
+          query={query}
+          setQuery={setQuery}
+          handleReset={handleReset}
+        />
 
         {error && <strong>Error: {JSON.stringify(error)}</strong>}
         {loading && (
