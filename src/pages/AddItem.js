@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { db } from '../lib/firebase';
-import { useCollection } from 'react-firebase-hooks/firestore';
+// import { useCollection } from 'react-firebase-hooks/firestore';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
 import Button from '../components/Button';
@@ -31,8 +31,6 @@ export default function AddItem({ token }) {
       });
     setListData(itemsArray);
   }, []);
-
-  console.log(listData);
 
   const history = useHistory();
 
