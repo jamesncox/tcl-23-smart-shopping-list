@@ -1,6 +1,5 @@
 import React from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-// import React, { useState } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 
 export default function SortableListItem({
   id,

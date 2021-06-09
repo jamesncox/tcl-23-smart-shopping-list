@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 export default function SortableList({
-  listData,
+  sortableData,
   renderSortableListItem,
   filterSortableItems,
   toggleEditable,
   editable,
 }) {
-  const [listItems, updateListItems] = useState(listData);
+  const [listItems, updateListItems] = useState(sortableData);
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -16,6 +16,7 @@ export default function SortableList({
     const items = Array.from(listItems);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
+    console.log(items);
 
     updateListItems(items);
   };
@@ -29,7 +30,7 @@ export default function SortableList({
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            {listData.length !== 0 && (
+            {sortableData.length !== 0 && (
               <div className="flex items-center full mt-5 mb-1">
                 <span className="text-xl md:text-2xl font-light">
                   shopping order

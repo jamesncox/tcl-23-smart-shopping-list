@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
@@ -6,7 +6,6 @@ import Swal from 'sweetalert2';
 import calculateEstimate from '../lib/estimates';
 import { DateTime, Interval } from 'luxon';
 import Button from '../components/Button';
-import IconButton from '../components/IconButton';
 import writingToken from './../img/writingToken.png';
 import { Redirect } from 'react-router';
 import FrequencyList from '../components/FrequencyList';
@@ -22,6 +21,16 @@ export default function List({ token }) {
   const [listItems, loading, error] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
+
+  const [sortableData, setSortableData] = useState([]);
+  useEffect(() => {
+    if (listItems) {
+      const itemsArray = listItems.docs.map((item) => {
+        return item.data();
+      });
+      setSortableData(itemsArray);
+    }
+  }, [listItems]);
 
   // set and clear user query for item filter
   const [query, setQuery] = useState('');
@@ -51,6 +60,8 @@ export default function List({ token }) {
         return 'w-28 p-2 rounded-tl rounded-bl mr-auto text-lg font-light bg-black bg-opacity-40 hover:bg-gray-700';
       case 'Store Order':
         return 'w-28 p-2 rounded-tr rounded-br mr-auto text-lg font-light bg-black bg-opacity-40 hover:bg-gray-700';
+      default:
+        return 'w-28 p-2 rounded-tl rounded-bl mr-auto text-lg font-light bg-black bg-opacity-40 hover:bg-gray-700';
     }
   }
 
@@ -388,7 +399,7 @@ export default function List({ token }) {
                   />
                 ) : (
                   <SortableList
-                    listData={listItems}
+                    sortableData={sortableData}
                     renderSortableListItem={renderSortableListItem}
                     filterSortableItems={filterSortableItems}
                     toggleEditable={toggleEditable}
