@@ -12,6 +12,8 @@ import { Redirect } from 'react-router';
 import FrequencyList from '../components/FrequencyList';
 import SortableListItem from '../components/SortableListItem';
 import FilterItems from '../components/FilterItems';
+import SortableList from '../components/SortableList';
+import FrequencyFilters from '../components/FrequencyFilters';
 
 const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 
@@ -296,7 +298,7 @@ export default function List({ token }) {
     );
   };
 
-  const renderSortableList = (item, color) => {
+  const renderSortableListItem = (item, color) => {
     return (
       <div className="flex items-center" key={item.id}>
         <SortableListItem
@@ -417,52 +419,42 @@ export default function List({ token }) {
             ) : (
               <div className="w-full">
                 <ul className="flex flex-col w-full">
-                  {filterByLessThanSevenDays(listItems).length !== 0 && (
-                    <span className="text-xl md:text-2xl font-light mt-5">
-                      ...within a week
-                    </span>
-                  )}
-                  {filterByLessThanSevenDays(listItems).map((doc) =>
-                    renderUnorderedList(doc, 'text-caribbean-green'),
-                  )}
-
-                  {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems)
-                    .length !== 0 && (
-                    <span className="text-xl md:text-2xl font-light mt-5">
-                      ...within a month
-                    </span>
-                  )}
-                  {filterByMoreThanSevenDaysAndLessThanThirtyDays(
-                    listItems,
-                  ).map((doc) =>
-                    renderUnorderedList(doc, 'text-orange-yellow'),
-                  )}
-
-                  {filterByMoreThanThirtyDays(listItems).length !== 0 && (
-                    <span className="text-xl md:text-2xl font-light mt-5">
-                      ...after thirty days
-                    </span>
-                  )}
-                  {filterByMoreThanThirtyDays(listItems).map((doc) =>
-                    renderUnorderedList(doc, 'text-paradise-pink'),
-                  )}
-
-                  {filterByRecentlyPurchased(listItems).length !== 0 && (
-                    <span className="text-xl md:text-2xl font-light mt-5">
-                      ...recently purchased
-                    </span>
-                  )}
-                  {filterByRecentlyPurchased(listItems).map((doc) =>
-                    renderUnorderedList(doc, 'text-blue-400'),
-                  )}
-
-                  {filterByInactiveItems(listItems).length !== 0 && (
-                    <span className="text-xl md:text-2xl font-light mt-5">
-                      ...inactive
-                    </span>
-                  )}
-                  {filterByInactiveItems(listItems).map((doc) =>
-                    renderUnorderedList(doc, 'text-gray-200'),
+                  <nav className="m-auto grid grid-cols-2 rounded mt-2 bg-black bg-opacity-20">
+                    {viewOptions.map(({ type }) => (
+                      <button
+                        key={type}
+                        id={type}
+                        className={
+                          type === selectedView
+                            ? viewUtilityClasses(selectedView)
+                            : 'w-28 p-2 rounded ml-auto text-lg font-light hover:bg-gray-700'
+                        }
+                        onClick={toggleSelectedView}
+                      >
+                        {type}
+                      </button>
+                    ))}
+                  </nav>
+                  {selectedView === 'Frequency' ? (
+                    <FrequencyFilters
+                      filterByLessThanSevenDays={filterByLessThanSevenDays}
+                      listData={listItems}
+                      renderFrequencyList={renderFrequencyList}
+                      filterByMoreThanSevenDaysAndLessThanThirtyDays={
+                        filterByMoreThanSevenDaysAndLessThanThirtyDays
+                      }
+                      filterByMoreThanThirtyDays={filterByMoreThanThirtyDays}
+                      filterByRecentlyPurchased={filterByRecentlyPurchased}
+                      filterByInactiveItems={filterByInactiveItems}
+                    />
+                  ) : (
+                    <SortableList
+                      listData={listItems}
+                      renderSortableListItem={renderSortableListItem}
+                      filterSortableItems={filterSortableItems}
+                      toggleEditable={toggleEditable}
+                      editable={editable}
+                    />
                   )}
                   <div className="mb-36" />
                 </ul>

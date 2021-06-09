@@ -16,6 +16,8 @@ export default function SortableListItem({
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  console.log(item.data().item_name);
   return (
     <li
       ref={setNodeRef}
@@ -41,7 +43,7 @@ export default function SortableListItem({
           id={item.item_name}
           className="text-md md:text-lg cursor-pointer"
         >
-          {item.item_name}
+          {item.data().item_name}
         </p>
       </label>
       {editable ? (
