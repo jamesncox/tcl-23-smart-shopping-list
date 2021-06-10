@@ -27,6 +27,7 @@ export default function List({ token, listData, setListData }) {
       const sortOrderDoc = listItems.docs.find(
         (item) => item.data().sort_order,
       );
+
       let sortOrderArray = [];
       if (sortOrderDoc) {
         sortOrderArray = sortOrderDoc.data().sort_order;
@@ -41,7 +42,7 @@ export default function List({ token, listData, setListData }) {
       });
       setListData(itemsArray);
     }
-  }, [listItems, listData, setListData]);
+  }, [listItems]);
 
   // set and clear user query for item filter
   const [query, setQuery] = useState('');
@@ -393,7 +394,6 @@ export default function List({ token, listData, setListData }) {
     const items = Array.from(listData);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-
     setListData(items);
   };
 
