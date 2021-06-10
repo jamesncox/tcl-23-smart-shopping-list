@@ -17,7 +17,10 @@ import firebase from 'firebase';
 const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 
 export default function List({ token, listData, setListData }) {
+  const [selectedView, setSelectedView] = useState('Frequency');
+  const [editable, setEditable] = useState(false);
   const [sortedData, setSortedData] = useState([]);
+  const [query, setQuery] = useState('');
 
   const history = useHistory();
   const [listItems, loading, error] = useCollection(db.collection(token), {
@@ -50,13 +53,11 @@ export default function List({ token, listData, setListData }) {
   }, [listItems]);
 
   // set and clear user query for item filter
-  const [query, setQuery] = useState('');
   function handleReset() {
     setQuery('');
   }
 
   // set and toggle the viewOptions Frequency or Store Order
-  const [selectedView, setSelectedView] = useState('Frequency');
   const toggleSelectedView = (e) => {
     setSelectedView(e.target.id);
     setEditable(false);
@@ -69,17 +70,14 @@ export default function List({ token, listData, setListData }) {
     items.splice(result.destination.index, 0, reorderedItem);
 
     const sortedIds = items.map((item) => item.id);
-    console.log(sortedIds);
     setSortedData(sortedIds);
     setListData(items);
   };
 
   // set the editable value and toggle true/false
-  const [editable, setEditable] = useState(false);
   const toggleEditable = () => {
     if (editable) {
       setEditable(false);
-      console.log(sortedData);
       const docRef = db.collection(token).doc('sort_order');
       docRef.update({ sort_order: sortedData });
     } else {
