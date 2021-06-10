@@ -50,6 +50,7 @@ export default function List({ token, listData, setListData }) {
       });
       setListData(itemsArray);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listItems, selectedView]);
 
   // set and clear user query for item filter
