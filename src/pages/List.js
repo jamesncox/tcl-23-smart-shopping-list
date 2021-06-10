@@ -474,7 +474,7 @@ export default function List({ token, listData, setListData }) {
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                         >
-                          <div className="flex items-center full mt-5 mb-1">
+                          <div className="flex items-center full mt-5 mb-2">
                             <span className="text-xl md:text-2xl font-light">
                               shopping order
                             </span>
@@ -498,7 +498,7 @@ export default function List({ token, listData, setListData }) {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
-                                    className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full"
+                                    className="container flex items-center bg-gray-900 bg-opacity-40 md:font-medium my-1 p-2 rounded w-full"
                                   >
                                     <input
                                       type="checkbox"
