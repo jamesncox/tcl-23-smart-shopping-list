@@ -98,6 +98,23 @@ export default function List({ token, listData, setListData }) {
             times_purchased: item.times_purchased + 1,
             last_estimate: item.purchase_frequency,
             checked: true,
+          })
+          .then(() => {
+            setListData((prev) => {
+              return prev.map((doc) => {
+                if (doc.id !== item.id) {
+                  return doc;
+                } else {
+                  return {
+                    ...doc,
+                    last_purchased: currentDateTime.toString(),
+                    times_purchased: item.times_purchased + 1,
+                    last_estimate: item.purchase_frequency,
+                    checked: true,
+                  };
+                }
+              });
+            });
           });
       } else {
         // if an item has at least 1 times_purchased, calculate the latestInterval with Interval from Luxon
@@ -114,18 +131,51 @@ export default function List({ token, listData, setListData }) {
         );
 
         db.collection(token)
-          .doc(item.item_name)
+          .doc(item.id)
           .update({
             last_purchased: currentDateTime.toString(),
             times_purchased: item.times_purchased + 1,
             last_estimate: latestEstimate,
             checked: true,
+          })
+          .then(() => {
+            setListData((prev) => {
+              return prev.map((doc) => {
+                if (doc.id !== item.id) {
+                  return doc;
+                } else {
+                  return {
+                    ...doc,
+                    last_purchased: currentDateTime.toString(),
+                    times_purchased: item.times_purchased + 1,
+                    last_estimate: latestEstimate,
+                    checked: true,
+                  };
+                }
+              });
+            });
           });
       }
     } else {
-      db.collection(token).doc(item.id).update({
-        checked: false,
-      });
+      db.collection(token)
+        .doc(item.id)
+        .update({
+          checked: false,
+        })
+        .then(() => {
+          setListData((prev) => {
+            return prev.map((doc) => {
+              if (doc.id !== item.id) {
+                return doc;
+              } else {
+                return {
+                  ...doc,
+                  checked: false,
+                };
+              }
+            });
+          });
+        });
     }
   };
 
@@ -143,9 +193,25 @@ export default function List({ token, listData, setListData }) {
     // uncheck the item if it is more than 24 hours purchased
     // if the item is less than DOUBLE the last_estimate, return false so it stays "inactive"
     if (latestInterval > 0) {
-      db.collection(token).doc(item.id).update({
-        checked: false,
-      });
+      db.collection(token)
+        .doc(item.id)
+        .update({
+          checked: false,
+        })
+        .then(() => {
+          setListData((prev) => {
+            return prev.map((doc) => {
+              if (doc.id !== item.id) {
+                return doc;
+              } else {
+                return {
+                  ...doc,
+                  checked: false,
+                };
+              }
+            });
+          });
+        });
       return latestInterval > 0 && latestInterval > doubleLastEstimate;
     } else {
       return latestInterval === 0;
@@ -166,8 +232,6 @@ export default function List({ token, listData, setListData }) {
     }
     return false;
   };
-
-  console.log(listData);
 
   function deleteItem(item) {
     Swal.fire({
