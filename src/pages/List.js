@@ -54,6 +54,7 @@ export default function List({ token, listData, setListData }) {
   const [selectedView, setSelectedView] = useState('Frequency');
   const toggleSelectedView = (e) => {
     setSelectedView(e.target.id);
+    setEditable(false);
   };
 
   // set the editable value and toggle true/false
