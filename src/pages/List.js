@@ -17,6 +17,8 @@ import firebase from 'firebase';
 const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 
 export default function List({ token, listData, setListData }) {
+  const [sortedData, setSortedData] = useState([]);
+
   const history = useHistory();
   const [listItems, loading, error] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
@@ -31,6 +33,9 @@ export default function List({ token, listData, setListData }) {
       let sortOrderArray = [];
       if (sortOrderDoc) {
         sortOrderArray = sortOrderDoc.data().sort_order;
+      }
+      if (sortOrderArray) {
+        setSortedData(sortOrderArray);
       }
 
       const itemsArray = sortOrderArray.map((id) => {
@@ -57,14 +62,45 @@ export default function List({ token, listData, setListData }) {
     setEditable(false);
   };
 
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+    const items = Array.from(listData);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    const sortedIds = items.map((item) => item.id);
+    console.log(sortedIds);
+    setSortedData(sortedIds);
+    setListData(items);
+  };
+
   // set the editable value and toggle true/false
   const [editable, setEditable] = useState(false);
   const toggleEditable = () => {
     if (editable) {
       setEditable(false);
+      console.log(sortedData);
+      const docRef = db.collection(token).doc('sort_order');
+      docRef.update({ sort_order: sortedData });
     } else {
       setEditable(true);
     }
+  };
+
+  const filterSortableItems = () => {
+    const itemsArray = sortedData.map((id) => {
+      const item = listData.find((item) => item.id === id);
+      if (item) {
+        return item;
+      }
+      return listItems.docs.find((item) => item.data().id === id).data();
+    });
+
+    return itemsArray.filter(
+      (item) =>
+        item.item_name.toLowerCase().includes(query.toLowerCase().trim()) ||
+        query === '',
+    );
   };
 
   function viewUtilityClasses(view) {
@@ -364,14 +400,6 @@ export default function List({ token, listData, setListData }) {
     );
   };
 
-  const filterSortableItems = (data) => {
-    return data.filter(
-      (item) =>
-        item.item_name.toLowerCase().includes(query.toLowerCase().trim()) ||
-        query === '',
-    );
-  };
-
   const renderFrequencyList = (item, color) => {
     return (
       <div className="flex items-center" key={item.id}>
@@ -386,15 +414,6 @@ export default function List({ token, listData, setListData }) {
         />
       </div>
     );
-  };
-
-  // const [sortableData, updateSortableData] = useState(listData);
-  const handleOnDragEnd = (result) => {
-    if (!result.destination) return;
-    const items = Array.from(listData);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setListData(items);
   };
 
   if (!token) {
