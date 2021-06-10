@@ -50,7 +50,7 @@ export default function List({ token, listData, setListData }) {
       });
       setListData(itemsArray);
     }
-  }, [listItems, setSortedData]);
+  }, [listItems, selectedView]);
 
   // set and clear user query for item filter
   function handleReset() {
@@ -61,9 +61,6 @@ export default function List({ token, listData, setListData }) {
   const toggleSelectedView = (e) => {
     setSelectedView(e.target.id);
     setEditable(false);
-    const items = Array.from(listData);
-    const sortedIds = items.map((item) => item.id);
-    setSortedData(sortedIds);
   };
 
   const handleOnDragEnd = (result) => {
@@ -520,28 +517,13 @@ export default function List({ token, listData, setListData }) {
                                     {...provided.dragHandleProps}
                                     className="container flex items-center bg-gray-900 bg-opacity-40 md:font-medium my-1 p-2 rounded w-full"
                                   >
-                                    <input
-                                      type="checkbox"
-                                      className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
-                                      id={item.item_name}
-                                      defaultChecked={
-                                        item.checked &&
-                                        compareTimeStampsAndUncheckAfter24Hours(
-                                          item,
-                                          item.id,
-                                        )
-                                      }
-                                      onClick={(e) => markItemPurchased(item)}
-                                    />
-
-                                    <label htmlFor={item.item_name}>
-                                      <p
-                                        aria-label={item.item_name}
-                                        className="text-md md:text-lg"
-                                      >
-                                        {item.item_name}
-                                      </p>
-                                    </label>
+                                    <p
+                                      aria-label={item.item_name}
+                                      className="ml-9 text-md md:text-lg"
+                                    >
+                                      {item.item_name}
+                                    </p>
+                                    {/* </label> */}
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       className="h-6 w-6 ml-auto mx-2 hover:text-caribbean-green"
