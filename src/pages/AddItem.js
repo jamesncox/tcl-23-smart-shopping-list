@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
 import Button from '../components/Button';
 import uuid from 'react-uuid';
+import firebase from 'firebase';
 
 export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
@@ -32,9 +33,11 @@ export default function AddItem({ token }) {
     const normalizedUserInput = normalizeString(itemName);
 
     const matchingItemName = listItems.docs.filter((doc) => {
-      const normalizedDatabaseItem = normalizeString(doc.data().item_name);
+      if (doc.data().item_name) {
+        const normalizedDatabaseItem = normalizeString(doc.data().item_name);
 
-      return normalizedDatabaseItem === normalizedUserInput;
+        return normalizedDatabaseItem === normalizedUserInput;
+      }
     });
 
     return matchingItemName.length !== 0;
@@ -79,13 +82,18 @@ export default function AddItem({ token }) {
         confirmButtonColor: '#073B4C',
       });
     } else {
+      db.collection(token).doc(uniqueId).set(newItemObject);
       if (listItems.docs.length === 0) {
         db.collection(token)
           .doc('sort_order')
           .set({ sort_order: [uniqueId] });
       } else {
+        const docRef = db.collection(token).doc('sort_order');
+
+        docRef.update({
+          sort_order: firebase.firestore.FieldValue.arrayUnion(uniqueId),
+        });
       }
-      db.collection(token).doc(uniqueId).set(newItemObject);
       history.push('/list');
     }
   }

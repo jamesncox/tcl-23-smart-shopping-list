@@ -11,22 +11,35 @@ import { Redirect } from 'react-router';
 import FrequencyList from '../components/FrequencyList';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import FilterItems from '../components/FilterItems';
-// import SortableList from '../components/SortableList';
 import FrequencyFilters from '../components/FrequencyFilters';
+import firebase from 'firebase';
 
 const viewOptions = [{ type: 'Frequency' }, { type: 'Store Order' }];
 
-export default function List({ token }) {
+export default function List({ token, listData, setListData }) {
   const history = useHistory();
   const [listItems, loading, error] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
-  const [listData, setListData] = useState([]);
   useEffect(() => {
     if (listItems) {
-      const itemsArray = listItems.docs.map((item) => {
-        return item.data();
+      // console.log(listItems.docs.map((item) => item.data()));
+      const sortOrderDoc = listItems.docs.find(
+        (item) => item.data().sort_order,
+      );
+      let sortOrderArray = [];
+      if (sortOrderDoc) {
+        sortOrderArray = sortOrderDoc.data().sort_order;
+      }
+
+      // console.log('listData', listData);
+      const itemsArray = sortOrderArray.map((id) => {
+        const item = listData.find((item) => item.id === id);
+        if (item) {
+          return item;
+        }
+        return listItems.docs.find((item) => item.data().id === id).data();
       });
       setListData(itemsArray);
     }
@@ -177,7 +190,12 @@ export default function List({ token }) {
           buttonsStyling: true,
           confirmButtonColor: '#2081C3',
         });
+        const docRef = db.collection(token).doc('sort_order');
+
         db.collection(token).doc(item.id).delete();
+        docRef.update({
+          sort_order: firebase.firestore.FieldValue.arrayRemove(item.id),
+        });
       }
     });
   }
@@ -303,7 +321,6 @@ export default function List({ token }) {
   // const [sortableData, updateSortableData] = useState(listData);
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
-    console.log(listData);
     const items = Array.from(listData);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);

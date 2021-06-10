@@ -10,6 +10,7 @@ import Info from './pages/Info';
 
 const App = () => {
   const [token, setToken] = useState('');
+  const [listData, setListData] = useState([]);
 
   useEffect(() => {
     const retrievedToken = checkLocalStorageForKey('token', '');
@@ -26,7 +27,11 @@ const App = () => {
                 <Home setToken={setToken} currentToken={token} />
               </Route>
               <Route exact path="/list">
-                <List token={token} />
+                <List
+                  token={token}
+                  listData={listData}
+                  setListData={setListData}
+                />
               </Route>
               <Route exact path="/add-item">
                 <AddItem token={token} />
