@@ -50,7 +50,7 @@ export default function List({ token, listData, setListData }) {
       });
       setListData(itemsArray);
     }
-  }, [listItems]);
+  }, [listItems, setSortedData]);
 
   // set and clear user query for item filter
   function handleReset() {
@@ -61,6 +61,9 @@ export default function List({ token, listData, setListData }) {
   const toggleSelectedView = (e) => {
     setSelectedView(e.target.id);
     setEditable(false);
+    const items = Array.from(listData);
+    const sortedIds = items.map((item) => item.id);
+    setSortedData(sortedIds);
   };
 
   const handleOnDragEnd = (result) => {
