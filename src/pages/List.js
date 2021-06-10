@@ -516,7 +516,7 @@ export default function List({ token, listData, setListData }) {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
-                                    className="container flex items-center bg-gray-900 bg-opacity-40 md:font-medium my-1 p-2 rounded w-full"
+                                    className="container flex items-center bg-gray-900 bg-opacity-40 md:font-medium my-1 p-2 active:bg-gray-900 rounded w-full"
                                   >
                                     <p
                                       aria-label={item.item_name}
@@ -524,20 +524,22 @@ export default function List({ token, listData, setListData }) {
                                     >
                                       {item.item_name}
                                     </p>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="h-6 w-6 ml-auto mx-2 hover:text-caribbean-green"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                      />
-                                    </svg>
+                                    <button className="ml-auto">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-6 w-6 mx-2 hover:text-caribbean-green"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth={2}
+                                          d="M4 6h16M4 12h16M4 18h16"
+                                        />
+                                      </svg>
+                                    </button>
                                   </li>
                                 )}
                               </Draggable>
