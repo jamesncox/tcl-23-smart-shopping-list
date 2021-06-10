@@ -79,6 +79,12 @@ export default function AddItem({ token }) {
         confirmButtonColor: '#073B4C',
       });
     } else {
+      if (listItems.docs.length === 0) {
+        db.collection(token)
+          .doc('sort_order')
+          .set({ sort_order: [uniqueId] });
+      } else {
+      }
       db.collection(token).doc(uniqueId).set(newItemObject);
       history.push('/list');
     }

@@ -302,7 +302,6 @@ export default function List({ token }) {
 
   // const [sortableData, updateSortableData] = useState(listData);
   const handleOnDragEnd = (result) => {
-    // console.log(result);
     if (!result.destination) return;
     console.log(listData);
     const items = Array.from(listData);
