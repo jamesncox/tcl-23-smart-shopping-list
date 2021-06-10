@@ -1,5 +1,4 @@
 export default function FrequencyList({
-  id,
   item,
   color,
   compareTimeStampsAndUncheckAfter24Hours,
@@ -28,9 +27,9 @@ export default function FrequencyList({
           className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
           item_name={item.item_name}
           defaultChecked={
-            item.checked && compareTimeStampsAndUncheckAfter24Hours(item, id)
+            item.checked && compareTimeStampsAndUncheckAfter24Hours(item)
           }
-          onClick={(e) => markItemPurchased(item, id)}
+          onClick={() => markItemPurchased(item)}
         />
 
         <label htmlFor={item.item_name}>
@@ -42,11 +41,7 @@ export default function FrequencyList({
             {item.item_name}
           </p>
         </label>
-        <button
-          className="ml-auto"
-          key={item.item_name}
-          onClick={() => deleteItem(item, id)}
-        >
+        <button className="ml-auto" onClick={() => deleteItem(item)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 mx-2 hover:text-red-500"
@@ -57,7 +52,6 @@ export default function FrequencyList({
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              // strokeWitem_nameth={2}
               d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
             />
           </svg>

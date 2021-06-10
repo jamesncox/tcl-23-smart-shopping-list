@@ -22,15 +22,15 @@ export default function List({ token }) {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
-  // const [sortableData, setSortableData] = useState([]);
-  // useEffect(() => {
-  //   if (listItems) {
-  //     const itemsArray = listItems.docs.map((item) => {
-  //       return item.data();
-  //     });
-  //     setSortableData(itemsArray);
-  //   }
-  // }, [listItems]);
+  const [listData, setListData] = useState([]);
+  useEffect(() => {
+    if (listItems) {
+      const itemsArray = listItems.docs.map((item) => {
+        return item.data();
+      });
+      setListData(itemsArray);
+    }
+  }, [listItems]);
 
   // set and clear user query for item filter
   const [query, setQuery] = useState('');
@@ -73,14 +73,14 @@ export default function List({ token }) {
     );
   };
 
-  const markItemPurchased = (item, id) => {
+  const markItemPurchased = (item) => {
     const currentDateTime = DateTime.now();
 
     if (item.checked === false) {
       // if an item has not yet been purchased, last_estimate has no value, so we initialize with the user's selected purchase_frequency
       if (item.times_purchased === 0) {
         db.collection(token)
-          .doc(id)
+          .doc(item.item_name)
           .update({
             last_purchased: currentDateTime.toString(),
             times_purchased: item.times_purchased + 1,
@@ -102,7 +102,7 @@ export default function List({ token }) {
         );
 
         db.collection(token)
-          .doc(id)
+          .doc(item.item_name)
           .update({
             last_purchased: currentDateTime.toString(),
             times_purchased: item.times_purchased + 1,
@@ -111,13 +111,13 @@ export default function List({ token }) {
           });
       }
     } else {
-      db.collection(token).doc(id).update({
+      db.collection(token).doc(item.item_name).update({
         checked: false,
       });
     }
   };
 
-  function compareTimeStampsAndUncheckAfter24Hours(item, id) {
+  function compareTimeStampsAndUncheckAfter24Hours(item) {
     // determine the amount days between now and last_purchase
     const currentDateTime = DateTime.now();
     const latestInterval = calculateLatestInterval(
@@ -131,7 +131,7 @@ export default function List({ token }) {
     // uncheck the item if it is more than 24 hours purchased
     // if the item is less than DOUBLE the last_estimate, return false so it stays "inactive"
     if (latestInterval > 0) {
-      db.collection(token).doc(id).update({
+      db.collection(token).doc(item.item_name).update({
         checked: false,
       });
       return latestInterval > 0 && latestInterval > doubleLastEstimate;
@@ -140,10 +140,7 @@ export default function List({ token }) {
     }
   }
 
-  const checkForInactiveItem = (itemData) => {
-    // pass in the item and create a variable for item.data() here
-    const item = itemData.data();
-
+  const checkForInactiveItem = (item) => {
     // calculate if the duration between now and last_purchased is greater than DOUBLE the last_estimate
     const doubleLastEstimate = item.last_estimate * 2;
     const currentDateTime = DateTime.now();
@@ -158,9 +155,9 @@ export default function List({ token }) {
     return false;
   };
 
-  function deleteItem(doc, id) {
+  function deleteItem(item) {
     Swal.fire({
-      title: `Delete ${doc.item_name.toUpperCase()} from your list?`,
+      title: `Delete ${item.item_name.toUpperCase()} from your list?`,
       text: 'Purchase history will be completely erased',
       icon: 'warning',
       iconColor: '#F5AB00',
@@ -174,23 +171,23 @@ export default function List({ token }) {
       if (result.isConfirmed) {
         Swal.fire({
           title: 'Deleted!',
-          text: `${doc.item_name.toUpperCase()} has been deleted.`,
+          text: `${item.item_name.toUpperCase()} has been deleted.`,
           icon: 'success',
           iconColor: '#049F76',
           buttonsStyling: true,
           confirmButtonColor: '#2081C3',
         });
-        db.collection(token).doc(id).delete();
+        db.collection(token).doc(item.item_name).delete();
       }
     });
   }
 
   const alphabetizeListItems = (list) => {
     const sortedList = list.sort((a, b) => {
-      if (a.data().item_name.toLowerCase() < b.data().item_name.toLowerCase()) {
+      if (a.item_name.toLowerCase() < b.item_name.toLowerCase()) {
         return -1;
       }
-      if (a.data().item_name.toLowerCase() > b.data().item_name.toLowerCase()) {
+      if (a.item_name.toLowerCase() > b.item_name.toLowerCase()) {
         return 1;
       }
       return 0;
@@ -200,12 +197,10 @@ export default function List({ token }) {
 
   const filterByUserInput = (item) => {
     // first alphabetize all the items then filter for the user's searched item(s)
-    return alphabetizeListItems(item.docs).filter(
-      (doc) =>
-        doc
-          .data()
-          .item_name.toLowerCase()
-          .includes(query.toLowerCase().trim()) || query === '',
+    return alphabetizeListItems(item).filter(
+      (item) =>
+        item.item_name.toLowerCase().includes(query.toLowerCase().trim()) ||
+        query === '',
     );
   };
 
@@ -215,13 +210,13 @@ export default function List({ token }) {
 
     // filter into the green category of less than 7 days
     return alphabetizedUserInputOrAllItems.filter((item) => {
-      if (item.data().times_purchased === 0) {
-        return item.data().purchase_frequency === 7;
+      if (item.times_purchased === 0) {
+        return item.purchase_frequency === 7;
       } else {
         return (
-          item.data().last_estimate <= 7 &&
+          item.last_estimate <= 7 &&
           !checkForInactiveItem(item) &&
-          !item.data().checked
+          !item.checked
         );
       }
     });
@@ -233,14 +228,14 @@ export default function List({ token }) {
 
     // filter items into the purple category of more than 7 days and less than 30 days
     return alphabetizedUserInputOrAllItems.filter((item) => {
-      if (item.data().times_purchased === 0) {
-        return item.data().purchase_frequency === 14;
+      if (item.times_purchased === 0) {
+        return item.purchase_frequency === 14;
       } else {
         return (
-          item.data().last_estimate > 7 &&
-          item.data().last_estimate <= 30 &&
+          item.last_estimate > 7 &&
+          item.last_estimate <= 30 &&
           !checkForInactiveItem(item) &&
-          !item.data().checked
+          !item.checked
         );
       }
     });
@@ -252,13 +247,13 @@ export default function List({ token }) {
 
     // filter items into the red category of more than 30 days
     return alphabetizedUserInputOrAllItems.filter((item) => {
-      if (item.data().times_purchased === 0) {
-        return item.data().purchase_frequency === 30;
+      if (item.times_purchased === 0) {
+        return item.purchase_frequency === 30;
       } else {
         return (
-          item.data().last_estimate > 30 &&
+          item.last_estimate > 30 &&
           !checkForInactiveItem(item) &&
-          !item.data().checked
+          !item.checked
         );
       }
     });
@@ -268,9 +263,7 @@ export default function List({ token }) {
     // filter the items by user input or render all items if no input
     const alphabetizedUserInputOrAllItems = filterByUserInput(listItems);
 
-    return alphabetizedUserInputOrAllItems.filter(
-      (item) => item.data().checked,
-    );
+    return alphabetizedUserInputOrAllItems.filter((item) => item.checked);
   };
 
   const filterByInactiveItems = (listItems) => {
@@ -279,17 +272,15 @@ export default function List({ token }) {
 
     // filter items into the gray category of more than double last_estimate
     return alphabetizedUserInputOrAllItems.filter(
-      (item) => checkForInactiveItem(item) && !item.data().checked,
+      (item) => checkForInactiveItem(item) && !item.checked,
     );
   };
 
   const filterSortableItems = (data) => {
-    return data.docs.filter(
+    return data.filter(
       (item) =>
-        item
-          .data()
-          .item_name.toLowerCase()
-          .includes(query.toLowerCase().trim()) || query === '',
+        item.item_name.toLowerCase().includes(query.toLowerCase().trim()) ||
+        query === '',
     );
   };
 
@@ -297,8 +288,7 @@ export default function List({ token }) {
     return (
       <div className="flex items-center" key={item.id}>
         <FrequencyList
-          id={item.id}
-          item={item.data()}
+          item={item}
           color={color}
           markItemPurchased={markItemPurchased}
           compareTimeStampsAndUncheckAfter24Hours={
@@ -310,16 +300,15 @@ export default function List({ token }) {
     );
   };
 
-  const [listData, updateListData] = useState(listItems);
+  const [sortableData, updateSortableData] = useState(listItems);
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
 
-    const items = Array.from(listData);
+    const items = Array.from(sortableData);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    console.log(items);
 
-    updateListData(items);
+    updateSortableData(items);
   };
 
   if (!token) {
@@ -381,7 +370,7 @@ export default function List({ token }) {
                 {selectedView === 'Frequency' ? (
                   <FrequencyFilters
                     filterByLessThanSevenDays={filterByLessThanSevenDays}
-                    listData={listItems}
+                    listData={listData}
                     renderFrequencyList={renderFrequencyList}
                     filterByMoreThanSevenDaysAndLessThanThirtyDays={
                       filterByMoreThanSevenDaysAndLessThanThirtyDays
@@ -410,16 +399,16 @@ export default function List({ token }) {
                               {editable ? 'Done' : 'Edit'}
                             </button>
                           </div>
-                          {filterSortableItems(listItems).map((item, index) =>
+                          {filterSortableItems(listData).map((item, index) =>
                             editable ? (
                               <Draggable
-                                key={item.id}
-                                draggableId={item.id}
+                                key={item.item_name}
+                                draggableId={item.item_name}
                                 index={index}
                               >
                                 {(provided) => (
                                   <li
-                                    key={item.id}
+                                    key={item.item_name}
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
@@ -428,25 +417,23 @@ export default function List({ token }) {
                                     <input
                                       type="checkbox"
                                       className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
-                                      id={item.data().item_name}
+                                      id={item.item_name}
                                       defaultChecked={
-                                        item.data().checked &&
+                                        item.checked &&
                                         compareTimeStampsAndUncheckAfter24Hours(
                                           item.data(),
                                           item.id,
                                         )
                                       }
-                                      onClick={(e) =>
-                                        markItemPurchased(item.data(), item.id)
-                                      }
+                                      onClick={(e) => markItemPurchased(item)}
                                     />
 
-                                    <label htmlFor={item.data().item_name}>
+                                    <label htmlFor={item.item_name}>
                                       <p
-                                        aria-label={item.data().item_name}
+                                        aria-label={item.item_name}
                                         className="text-md md:text-lg"
                                       >
-                                        {item.data().item_name}
+                                        {item.item_name}
                                       </p>
                                     </label>
                                     <svg
@@ -469,38 +456,34 @@ export default function List({ token }) {
                             ) : (
                               <li
                                 className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full"
-                                key={item.id}
+                                key={item.item_name}
                               >
                                 <input
                                   type="checkbox"
                                   className="mx-2 h-4 w-4 rounded h-5 w-5 bg-black bg-opacity-20 text-gray-700 cursor-pointer"
-                                  id={item.id}
+                                  id={item.item_name}
                                   defaultChecked={
-                                    item.data().checked &&
+                                    item.checked &&
                                     compareTimeStampsAndUncheckAfter24Hours(
                                       item.data(),
                                       item.id,
                                     )
                                   }
-                                  onClick={(e) =>
-                                    markItemPurchased(item.data(), item.id)
-                                  }
+                                  onClick={(e) => markItemPurchased(item)}
                                 />
 
-                                <label htmlFor={item.data().item_name}>
+                                <label htmlFor={item.item_name}>
                                   <p
-                                    aria-label={item.data().item_name}
+                                    aria-label={item.item_name}
                                     className="text-md md:text-lg"
                                   >
-                                    {item.data().item_name}
+                                    {item.item_name}
                                   </p>
                                 </label>
                                 <button
                                   className="ml-auto"
-                                  key={item.data().item_name}
-                                  onClick={() =>
-                                    deleteItem(item.data(), item.id)
-                                  }
+                                  key={item.item_name}
+                                  onClick={() => deleteItem(item)}
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"

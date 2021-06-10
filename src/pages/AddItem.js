@@ -4,6 +4,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
 import Button from '../components/Button';
+import uuid from 'react-uuid';
 
 export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
@@ -42,6 +43,8 @@ export default function AddItem({ token }) {
   function createListItem(e) {
     e.preventDefault();
 
+    const uniqueId = uuid();
+
     const newItemObject = {
       item_name: itemName,
       purchase_frequency: parseInt(purchaseFrequency),
@@ -49,6 +52,7 @@ export default function AddItem({ token }) {
       last_estimate: null,
       times_purchased: 0,
       checked: false,
+      id: uniqueId,
     };
 
     const itemExists = doesItemExistInDatabase(itemName);
@@ -75,7 +79,7 @@ export default function AddItem({ token }) {
         confirmButtonColor: '#073B4C',
       });
     } else {
-      db.collection(token).add(newItemObject);
+      db.collection(token).doc(uniqueId).set(newItemObject);
       history.push('/list');
     }
   }
