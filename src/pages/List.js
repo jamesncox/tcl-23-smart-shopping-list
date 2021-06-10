@@ -500,7 +500,7 @@ export default function List({ token, listData, setListData }) {
                               className="w-16 ml-auto bg-gray-900 bg-opacity-50 rounded p-2 hover:bg-gray-700"
                               onClick={toggleEditable}
                             >
-                              {editable ? 'Done' : 'Edit'}
+                              {editable ? 'Done' : 'Sort'}
                             </button>
                           </div>
                           {filterSortableItems(listData).map((item, index) =>
@@ -524,7 +524,6 @@ export default function List({ token, listData, setListData }) {
                                     >
                                       {item.item_name}
                                     </p>
-                                    {/* </label> */}
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       className="h-6 w-6 ml-auto mx-2 hover:text-caribbean-green"
