@@ -80,7 +80,7 @@ export default function List({ token }) {
       // if an item has not yet been purchased, last_estimate has no value, so we initialize with the user's selected purchase_frequency
       if (item.times_purchased === 0) {
         db.collection(token)
-          .doc(item.item_name)
+          .doc(item.id)
           .update({
             last_purchased: currentDateTime.toString(),
             times_purchased: item.times_purchased + 1,
@@ -111,7 +111,7 @@ export default function List({ token }) {
           });
       }
     } else {
-      db.collection(token).doc(item.item_name).update({
+      db.collection(token).doc(item.id).update({
         checked: false,
       });
     }
@@ -131,7 +131,7 @@ export default function List({ token }) {
     // uncheck the item if it is more than 24 hours purchased
     // if the item is less than DOUBLE the last_estimate, return false so it stays "inactive"
     if (latestInterval > 0) {
-      db.collection(token).doc(item.item_name).update({
+      db.collection(token).doc(item.id).update({
         checked: false,
       });
       return latestInterval > 0 && latestInterval > doubleLastEstimate;
@@ -177,7 +177,7 @@ export default function List({ token }) {
           buttonsStyling: true,
           confirmButtonColor: '#2081C3',
         });
-        db.collection(token).doc(item.item_name).delete();
+        db.collection(token).doc(item.id).delete();
       }
     });
   }
@@ -465,11 +465,10 @@ export default function List({ token }) {
                                   defaultChecked={
                                     item.checked &&
                                     compareTimeStampsAndUncheckAfter24Hours(
-                                      item.data(),
-                                      item.id,
+                                      item,
                                     )
                                   }
-                                  onClick={(e) => markItemPurchased(item)}
+                                  onClick={() => markItemPurchased(item)}
                                 />
 
                                 <label htmlFor={item.item_name}>
