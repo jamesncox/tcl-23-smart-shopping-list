@@ -38,6 +38,7 @@ export default function AddItem({ token }) {
 
         return normalizedDatabaseItem === normalizedUserInput;
       }
+      return false;
     });
 
     return matchingItemName.length !== 0;

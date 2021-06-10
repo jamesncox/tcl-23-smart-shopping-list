@@ -32,7 +32,6 @@ export default function List({ token, listData, setListData }) {
         sortOrderArray = sortOrderDoc.data().sort_order;
       }
 
-      // console.log('listData', listData);
       const itemsArray = sortOrderArray.map((id) => {
         const item = listData.find((item) => item.id === id);
         if (item) {
@@ -42,7 +41,7 @@ export default function List({ token, listData, setListData }) {
       });
       setListData(itemsArray);
     }
-  }, [listItems]);
+  }, [listItems, listData, setListData]);
 
   // set and clear user query for item filter
   const [query, setQuery] = useState('');
@@ -421,7 +420,7 @@ export default function List({ token, listData, setListData }) {
             Loading...
           </h2>
         )}
-        {listData && (
+        {listData && !loading && (
           <>
             {listData.length === 0 ? (
               <section className="flex flex-col items-center w-full">
