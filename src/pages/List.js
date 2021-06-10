@@ -24,7 +24,6 @@ export default function List({ token, listData, setListData }) {
 
   useEffect(() => {
     if (listItems) {
-      // console.log(listItems.docs.map((item) => item.data()));
       const sortOrderDoc = listItems.docs.find(
         (item) => item.data().sort_order,
       );
@@ -168,6 +167,8 @@ export default function List({ token, listData, setListData }) {
     return false;
   };
 
+  console.log(listData);
+
   function deleteItem(item) {
     Swal.fire({
       title: `Delete ${item.item_name.toUpperCase()} from your list?`,
@@ -193,9 +194,13 @@ export default function List({ token, listData, setListData }) {
         const docRef = db.collection(token).doc('sort_order');
 
         db.collection(token).doc(item.id).delete();
-        docRef.update({
-          sort_order: firebase.firestore.FieldValue.arrayRemove(item.id),
-        });
+        docRef
+          .update({
+            sort_order: firebase.firestore.FieldValue.arrayRemove(item.id),
+          })
+          .then(() =>
+            setListData((prev) => prev.filter((doc) => doc.id !== item.id)),
+          );
       }
     });
   }
@@ -351,9 +356,9 @@ export default function List({ token, listData, setListData }) {
             Loading...
           </h2>
         )}
-        {listItems && (
+        {listData && (
           <>
-            {listItems.docs.length === 0 ? (
+            {listData.length === 0 ? (
               <section className="flex flex-col items-center w-full">
                 <img
                   src={writingToken}
@@ -438,7 +443,7 @@ export default function List({ token, listData, setListData }) {
                                       defaultChecked={
                                         item.checked &&
                                         compareTimeStampsAndUncheckAfter24Hours(
-                                          item.data(),
+                                          item,
                                           item.id,
                                         )
                                       }
