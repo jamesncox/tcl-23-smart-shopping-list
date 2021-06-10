@@ -300,15 +300,16 @@ export default function List({ token }) {
     );
   };
 
-  const [sortableData, updateSortableData] = useState(listItems);
+  // const [sortableData, updateSortableData] = useState(listData);
   const handleOnDragEnd = (result) => {
+    // console.log(result);
     if (!result.destination) return;
-
-    const items = Array.from(sortableData);
+    console.log(listData);
+    const items = Array.from(listData);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
-    updateSortableData(items);
+    setListData(items);
   };
 
   if (!token) {
