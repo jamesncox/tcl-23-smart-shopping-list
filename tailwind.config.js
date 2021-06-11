@@ -16,6 +16,6 @@ module.exports = {
       },
     },
   },
-  variants: { backgroundColor: ['active'] },
+  variants: { backgroundColor: ['active', 'hover'] },
   plugins: [require('@tailwindcss/forms')],
 };
