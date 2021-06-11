@@ -516,7 +516,7 @@ export default function List({ token, listData, setListData }) {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
-                                    className="container flex items-center bg-gray-900 bg-opacity-30 md:font-medium my-1 p-3 active:bg-gray-900 hover:bg-gray-900 hover:bg-opacity-40 rounded w-full"
+                                    className="container flex items-center bg-gray-900 bg-opacity-30 md:font-medium my-1 p-3 active:bg-gray-900 rounded w-full"
                                   >
                                     <p
                                       aria-label={item.item_name}
