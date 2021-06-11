@@ -1,8 +1,12 @@
 # TO DO
 
-[ ] Add the `Add item` form as a Sweet Alert 2 modal so that the user can see the items being added to their list
+[ ] Add dark/light theme toggle
+
+[ ] Add more padding to Store Order view, easier to grab each item and move
 
 [ ] Add a higher-quality logo. It's just too grainy on desktop
+
+[ ] Add the `Add item` form as a Sweet Alert 2 modal so that the user can see the items being added to their list
 
 ## Completed To Dos
 
