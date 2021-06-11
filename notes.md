@@ -4,9 +4,9 @@
 
 [ ] Add a higher-quality logo. It's just too grainy on desktop
 
-[ ] Create a View List option that utilizes drag and drop, that initially displays the items alphabetically, and then the user can order them in the order that they go shopping around the store. And can switch between suggested purchase frequency and "Store Order"
-
 ## Completed To Dos
+
+[x] Create a View List option that utilizes drag and drop, that initially displays the items alphabetically, and then the user can order them in the order that they go shopping around the store. And can switch between suggested purchase frequency and "Store Order"
 
 [x] Create a new Firestore database and wire up the connection
 
