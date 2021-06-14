@@ -147,7 +147,32 @@ export default function Info({ token, setToken }) {
       </section>
 
       <Button text="Sign out" onClick={handleSignOut} />
-      <div className="mb-36" />
+      <div className="flex w-full flex-col mt-10 p-5">
+        <div className="grid grid-cols-2 w-full divide-gray-200 divide-x-2">
+          <div className="w-full text-left">
+            <p>
+              Made with{' '}
+              <span role="img" aria-label="heart emoji">
+                ❤️‍
+              </span>
+              by{' '}
+              <a
+                className="font-bold hover:text-caribbean-green"
+                href="https://www.jamescox.dev/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                James Cox
+              </a>
+            </p>
+          </div>
+        </div>
+        <p>
+          {'Copyright © '}
+          {new Date().getFullYear()}
+        </p>
+      </div>
+      <div className="mb-36 bg-gray-900 bg-opacity-30" />
     </>
   );
 }
