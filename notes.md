@@ -41,3 +41,7 @@
 - #2081C3 (original)
 - #0C4767
 - #235789
+
+# Kill port
+
+fuser -n tcp -k 3000

@@ -119,7 +119,7 @@ export default function AddItem({ token }) {
           />
         </label>
         <h2 className="mt-10 mb-5 self-start text-2xl font-light">
-          When will you buy it?
+          How soon will you buy it?
         </h2>
 
         <div className="container flex items-center bg-gray-900 bg-opacity-60 md:font-medium my-1 p-2 rounded w-full">
