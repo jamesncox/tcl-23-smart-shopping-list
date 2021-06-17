@@ -95,7 +95,9 @@ export default function List({ token, listData, setListData }) {
       return listItems.docs.find((item) => item.data().id === id).data();
     });
 
-    return itemsArray.filter(
+    const unCheckedItems = itemsArray.filter((item) => !item.checked);
+
+    return unCheckedItems.filter(
       (item) =>
         item.item_name.toLowerCase().includes(query.toLowerCase().trim()) ||
         query === '',
@@ -215,7 +217,7 @@ export default function List({ token, listData, setListData }) {
     }
   };
 
-  function compareTimeStampsAndUncheckAfter24Hours(item) {
+  function compareTimeStampsAndUncheckAfterLatestIntervalExpires(item) {
     // determine the amount days between now and last_purchase
     const currentDateTime = DateTime.now();
     const latestInterval = calculateLatestInterval(
@@ -223,12 +225,10 @@ export default function List({ token, listData, setListData }) {
       currentDateTime,
     );
 
-    const doubleLastEstimate = item.last_estimate * 2;
-
-    // check if an item marked purchased for more than 24 hours
-    // uncheck the item if it is more than 24 hours purchased
-    // if the item is less than DOUBLE the last_estimate, return false so it stays "inactive"
-    if (latestInterval > 0) {
+    // when an item is marked purchased and on a list AND the latestInterval,
+    // (the time between now and when the item was last puchased) is greater than the
+    // item's last_estimate property, uncheck it and put it back in it's category
+    if (latestInterval > item.last_estimate && item.checked) {
       db.collection(token)
         .doc(item.id)
         .update({
@@ -248,9 +248,9 @@ export default function List({ token, listData, setListData }) {
             });
           });
         });
-      return latestInterval > 0 && latestInterval > doubleLastEstimate;
+      return latestInterval > item.last_estimate;
     } else {
-      return latestInterval === 0;
+      return latestInterval <= item.last_estimate;
     }
   }
 
@@ -406,8 +406,8 @@ export default function List({ token, listData, setListData }) {
           item={item}
           color={color}
           markItemPurchased={markItemPurchased}
-          compareTimeStampsAndUncheckAfter24Hours={
-            compareTimeStampsAndUncheckAfter24Hours
+          compareTimeStampsAndUncheckAfterLatestIntervalExpires={
+            compareTimeStampsAndUncheckAfterLatestIntervalExpires
           }
           deleteItem={deleteItem}
         />
@@ -554,7 +554,7 @@ export default function List({ token, listData, setListData }) {
                                   id={item.item_name}
                                   defaultChecked={
                                     item.checked &&
-                                    compareTimeStampsAndUncheckAfter24Hours(
+                                    compareTimeStampsAndUncheckAfterLatestIntervalExpires(
                                       item,
                                     )
                                   }

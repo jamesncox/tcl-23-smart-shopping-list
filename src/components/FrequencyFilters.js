@@ -39,7 +39,7 @@ export default function FrequencyFilters({
 
       {filterByRecentlyPurchased(listData).length !== 0 && (
         <span className="text-xl md:text-2xl font-light mt-5">
-          ...recently purchased
+          ...purchased
         </span>
       )}
       {filterByRecentlyPurchased(listData).map((item) =>
